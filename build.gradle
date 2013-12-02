@@ -1,0 +1,55 @@
+apply plugin: 'java'
+
+description = 'MyTimetable API client'
+version = '1.0.0'
+
+group = 'nl.eveoh.mytimetable.apiclient'
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+ext.jacksonVersion = '2.2.3'
+
+jar {
+    manifest {
+        attributes(
+            'Implementation-Title': 'MyTimetable API client', 
+        )
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.5'
+
+    compile 'org.apache.commons:commons-lang3:3.1'
+    compile 'org.apache.httpcomponents:httpclient:4.3.1'
+
+    compile "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
+    compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+    compile "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+}
+
+apply plugin: 'maven'
+
+configurations {
+    deployerJars
+}
+
+dependencies {
+    deployerJars "org.apache.maven.wagon:wagon-ssh-external:2.2"
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            configuration = configurations.deployerJars
+            repository(url: "scpexe://p-web-01.eveoh.nl/var/www/dl.eveoh.nl/maven2") {
+                authentication(userName: eveohMavenUser)
+            }
+        }
+    }
+}
