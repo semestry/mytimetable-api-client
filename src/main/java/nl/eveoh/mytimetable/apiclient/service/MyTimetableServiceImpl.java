@@ -30,12 +30,12 @@ import nl.eveoh.mytimetable.apiclient.model.Event;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,8 +50,6 @@ import java.util.List;
 /**
  * Implementation of the MyTimetableService interface.
  *
- * TODO: Implement SSL CN check skip, if configured.
- *
  * @see MyTimetableService
  *
  * @author Marco Krikke
@@ -61,15 +59,36 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
     private static final Logger log = LoggerFactory.getLogger(MyTimetableServiceImpl.class);
 
-    private static final CloseableHttpClient client = HttpClients.createDefault();
+    private static CloseableHttpClient client = null;
 
     private ObjectMapper mapper = new ObjectMapper();
 
 
 
-    public MyTimetableServiceImpl() {
+    public MyTimetableServiceImpl(Configuration configuration) {
+        if (client == null) {
+            reinitializeHttpClient(configuration);
+        }
+
         // Make sure the Jackson ObjectMapper does not fail on other properties in the JSON response.
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration configuration) {
+        reinitializeHttpClient(configuration);
+    }
+
+    public static void reinitializeHttpClient(Configuration configuration) {
+        if (client != null) {
+            try {
+                client.close();
+            } catch (IOException e) {
+                log.warn("Error while closing HttpClient.", e);
+            }
+        }
+
+        client = MyTimetableHttpClientBuilder.build(configuration);
     }
 
     @Override
@@ -159,9 +178,17 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
                 URI apiUri = uriBuilder.build();
 
-                HttpUriRequest request = new HttpGet(apiUri);
+                HttpGet request = new HttpGet(apiUri);
                 request.addHeader("apiToken", configuration.getApiKey());
                 request.addHeader("requestedAuth", username);
+
+                // Configure request timeouts.
+                RequestConfig requestConfig = RequestConfig.custom()
+                        .setSocketTimeout(configuration.getApiSocketTimeout())
+                        .setConnectTimeout(configuration.getApiConnectTimeout())
+                        .build();
+
+                request.setConfig(requestConfig);
 
                 requests.add(request);
             } catch (URISyntaxException e) {

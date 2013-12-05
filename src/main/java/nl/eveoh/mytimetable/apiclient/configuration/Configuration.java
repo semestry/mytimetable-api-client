@@ -33,7 +33,10 @@ public class Configuration {
 
     private static final String API_ENDPOINT_URIS = "apiEndpointUris";
     private static final String API_KEY = "apiKey";
-    private static final String SSL_CN_CHECK = "sslCnCheck";
+    private static final String API_SSL_CN_CHECK = "apiSslCnCheck";
+    private static final String API_CONNECT_TIMEOUT = "apiConnectTimeout";
+    private static final String API_SOCKET_TIMEOUT = "apiSocketTimeout";
+    private static final String API_MAX_CONNECTIONS = "apiMaxConnections";
     private static final String APPLICATION_URI = "applicationUri";
     private static final String APPLICATION_TARGET = "applicationTarget";
     private static final String USERNAME_DOMAIN_PREFIX = "usernameDomainPrefix";
@@ -58,7 +61,26 @@ public class Configuration {
      * <p/>
      * Default to {@code true}.
      */
-    private boolean sslCnCheck = true;
+    private boolean apiSslCnCheck = true;
+
+    /**
+     * Timeout for connecting to the MyTimetable API, in milliseconds.
+     * <p/>
+     * Defaults to 1000 (1 second).
+     */
+    private int apiConnectTimeout = 1000;
+
+    /**
+     * Timeout for the socket waiting for data from the MyTimetable API.
+     * <p/>
+     * Defaults to 10000 (10 seconds).
+     */
+    private int apiSocketTimeout = 10000;
+
+    /**
+     * Maximum number of concurrent connections in the MyTimetable API connection pool.
+     */
+    private int apiMaxConnections = 20;
 
     /**
      * URL to the full MyTimetable application.
@@ -106,7 +128,11 @@ public class Configuration {
             }
         }
 
-        sslCnCheck = Boolean.parseBoolean(properties.getProperty(SSL_CN_CHECK));
+        apiSslCnCheck = Boolean.parseBoolean(properties.getProperty(API_SSL_CN_CHECK));
+        apiConnectTimeout = Integer.parseInt(properties.getProperty(API_CONNECT_TIMEOUT));
+        apiSocketTimeout = Integer.parseInt(properties.getProperty(API_SOCKET_TIMEOUT));
+        apiMaxConnections = Integer.parseInt(properties.getProperty(API_MAX_CONNECTIONS));
+
         applicationUri = properties.getProperty(APPLICATION_URI);
         applicationTarget = properties.getProperty(APPLICATION_TARGET);
         usernameDomainPrefix = properties.getProperty(USERNAME_DOMAIN_PREFIX);
@@ -129,12 +155,36 @@ public class Configuration {
         this.apiEndpointUris = apiEndpointUris;
     }
 
-    public boolean isSslCnCheck() {
-        return sslCnCheck;
+    public boolean isApiSslCnCheck() {
+        return apiSslCnCheck;
     }
 
-    public void setSslCnCheck(boolean sslCnCheck) {
-        this.sslCnCheck = sslCnCheck;
+    public void setApiSslCnCheck(boolean apiSslCnCheck) {
+        this.apiSslCnCheck = apiSslCnCheck;
+    }
+
+    public int getApiConnectTimeout() {
+        return apiConnectTimeout;
+    }
+
+    public void setApiConnectTimeout(int apiConnectTimeout) {
+        this.apiConnectTimeout = apiConnectTimeout;
+    }
+
+    public int getApiSocketTimeout() {
+        return apiSocketTimeout;
+    }
+
+    public void setApiSocketTimeout(int apiSocketTimeout) {
+        this.apiSocketTimeout = apiSocketTimeout;
+    }
+
+    public int getApiMaxConnections() {
+        return apiMaxConnections;
+    }
+
+    public void setApiMaxConnections(int apiMaxConnections) {
+        this.apiMaxConnections = apiMaxConnections;
     }
 
     public String getApplicationUri() {
@@ -195,7 +245,10 @@ public class Configuration {
         }
         ret.setProperty(API_ENDPOINT_URIS, uris.toString());
 
-        ret.setProperty(SSL_CN_CHECK, String.valueOf(sslCnCheck));
+        ret.setProperty(API_SSL_CN_CHECK, String.valueOf(apiSslCnCheck));
+        ret.setProperty(API_CONNECT_TIMEOUT, String.valueOf(apiConnectTimeout));
+        ret.setProperty(API_SOCKET_TIMEOUT, String.valueOf(apiSocketTimeout));
+        ret.setProperty(API_MAX_CONNECTIONS, String.valueOf(apiMaxConnections));
 
         if (apiKey != null) {
             ret.setProperty(API_KEY, apiKey);

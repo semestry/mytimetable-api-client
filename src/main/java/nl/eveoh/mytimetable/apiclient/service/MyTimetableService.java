@@ -21,6 +21,7 @@
 package nl.eveoh.mytimetable.apiclient.service;
 
 import nl.eveoh.mytimetable.apiclient.configuration.Configuration;
+import nl.eveoh.mytimetable.apiclient.configuration.ConfigurationChangeListener;
 import nl.eveoh.mytimetable.apiclient.model.Event;
 
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.List;
 /**
  * Interface for a service which communicates with the MyTimetable API.
  */
-public interface MyTimetableService {
+public interface MyTimetableService extends ConfigurationChangeListener {
 
     /**
      * Returns the upcoming events for the given user.
