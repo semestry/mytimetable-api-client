@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.eveoh.mytimetable.apiclient.configuration.Configuration;
+import nl.eveoh.mytimetable.apiclient.configuration.ConfigurationChangeListener;
 import nl.eveoh.mytimetable.apiclient.exception.LocalizableException;
 import nl.eveoh.mytimetable.apiclient.model.Event;
 import org.apache.commons.lang3.StringUtils;
@@ -55,7 +56,7 @@ import java.util.List;
  * @author Marco Krikke
  * @author Erik van Paassen
  */
-public class MyTimetableServiceImpl implements MyTimetableService {
+public class MyTimetableServiceImpl implements MyTimetableService, ConfigurationChangeListener {
 
     private static final Logger log = LoggerFactory.getLogger(MyTimetableServiceImpl.class);
 
@@ -65,9 +66,13 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
     private ObjectMapper mapper = new ObjectMapper();
 
+    private Configuration configuration;
+
 
 
     public MyTimetableServiceImpl(Configuration configuration, MyTimetableHttpClientBuilder clientBuilder) {
+        this.configuration = configuration;
+
         if (clientBuilder != null) {
             this.clientBuilder = clientBuilder;
         }
@@ -86,6 +91,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
     @Override
     public void onConfigurationChanged(Configuration configuration) {
+        this.configuration = configuration;
         reinitializeHttpClient(configuration, clientBuilder);
     }
 
@@ -110,8 +116,8 @@ public class MyTimetableServiceImpl implements MyTimetableService {
     }
 
     @Override
-    public List<Event> getUpcomingEvents(String username, Configuration configuration) {
-        ArrayList<HttpUriRequest> requests = getApiRequests(username, configuration);
+    public List<Event> getUpcomingEvents(String username) {
+        ArrayList<HttpUriRequest> requests = getApiRequests(username);
 
         for (HttpUriRequest request : requests) {
             CloseableHttpResponse response = null;
@@ -155,10 +161,9 @@ public class MyTimetableServiceImpl implements MyTimetableService {
      * Creates a request for each MyTimetable API endpoint defined in the configuration.
      *
      * @param username      Username the fetch the upcoming events for.
-     * @param configuration Configuration object.
      * @return              List of {@link HttpUriRequest} objects, which should be executed in order, until a result is acquired.
      */
-    private ArrayList<HttpUriRequest> getApiRequests(String username, Configuration configuration) {
+    private ArrayList<HttpUriRequest> getApiRequests(String username) {
         if (StringUtils.isBlank(username)) {
             log.error("Username cannot be empty.");
             throw new LocalizableException("Username cannot be empty.", "notLoggedIn");

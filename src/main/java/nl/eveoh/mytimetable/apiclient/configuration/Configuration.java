@@ -130,14 +130,26 @@ public class Configuration {
         }
 
         apiSslCnCheck = Boolean.parseBoolean(properties.getProperty(API_SSL_CN_CHECK));
-        apiConnectTimeout = Integer.parseInt(properties.getProperty(API_CONNECT_TIMEOUT));
-        apiSocketTimeout = Integer.parseInt(properties.getProperty(API_SOCKET_TIMEOUT));
-        apiMaxConnections = Integer.parseInt(properties.getProperty(API_MAX_CONNECTIONS));
+
+        try {
+            apiConnectTimeout = Integer.parseInt(properties.getProperty(API_CONNECT_TIMEOUT));
+        } catch (NumberFormatException e) { /* Do nothing, keep default value. */ }
+
+        try {
+            apiSocketTimeout = Integer.parseInt(properties.getProperty(API_SOCKET_TIMEOUT));
+        } catch (NumberFormatException e) { /* Do nothing, keep default value. */ }
+
+        try {
+            apiMaxConnections = Integer.parseInt(properties.getProperty(API_MAX_CONNECTIONS));
+        } catch (NumberFormatException e) { /* Do nothing, keep default value. */ }
 
         applicationUri = properties.getProperty(APPLICATION_URI);
         applicationTarget = properties.getProperty(APPLICATION_TARGET);
         usernameDomainPrefix = properties.getProperty(USERNAME_DOMAIN_PREFIX);
-        numberOfEvents = Integer.parseInt(properties.getProperty(NUMBER_OF_EVENTS));
+
+        try {
+            numberOfEvents = Integer.parseInt(properties.getProperty(NUMBER_OF_EVENTS));
+        } catch (NumberFormatException e) { /* Do nothing, keep default value. */ }
     }
 
     public String getApiKey() {
