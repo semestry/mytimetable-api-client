@@ -61,11 +61,17 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
     private static CloseableHttpClient client = null;
 
+    private MyTimetableHttpClientBuilder clientBuilder = null;
+
     private ObjectMapper mapper = new ObjectMapper();
 
 
 
-    public MyTimetableServiceImpl(Configuration configuration) {
+    public MyTimetableServiceImpl(Configuration configuration, MyTimetableHttpClientBuilder clientBuilder) {
+        if (clientBuilder != null) {
+            this.clientBuilder = clientBuilder;
+        }
+
         if (client == null) {
             reinitializeHttpClient(configuration);
         }
@@ -74,12 +80,24 @@ public class MyTimetableServiceImpl implements MyTimetableService {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
+    public MyTimetableServiceImpl(Configuration configuration) {
+        this(configuration, null);
+    }
+
     @Override
     public void onConfigurationChanged(Configuration configuration) {
-        reinitializeHttpClient(configuration);
+        reinitializeHttpClient(configuration, clientBuilder);
     }
 
     public static void reinitializeHttpClient(Configuration configuration) {
+        reinitializeHttpClient(configuration, null);
+    }
+
+    public static void reinitializeHttpClient(Configuration configuration, MyTimetableHttpClientBuilder builder) {
+        if (builder == null) {
+            builder = new MyTimetableHttpClientBuilderImpl(configuration);
+        }
+
         if (client != null) {
             try {
                 client.close();
@@ -88,7 +106,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
             }
         }
 
-        client = MyTimetableHttpClientBuilder.build(configuration);
+        client = builder.build();
     }
 
     @Override

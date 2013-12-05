@@ -21,6 +21,7 @@
 package nl.eveoh.mytimetable.apiclient.configuration;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -54,7 +55,7 @@ public class Configuration {
      * <p/>
      * Should be something like <tt>https://timetable.institution.ac.uk/api/v0/</tt>.
      */
-    private ArrayList<String> apiEndpointUris = new ArrayList<String>();
+    private List<String> apiEndpointUris = new ArrayList<String>();
 
     /**
      * Whether the SSL certificate CN should be verified when connecting to the MyTimetable API.
@@ -147,11 +148,11 @@ public class Configuration {
         this.apiKey = apiKey;
     }
 
-    public ArrayList<String> getApiEndpointUris() {
+    public List<String> getApiEndpointUris() {
         return apiEndpointUris;
     }
 
-    public void setApiEndpointUris(ArrayList<String> apiEndpointUris) {
+    public void setApiEndpointUris(List<String> apiEndpointUris) {
         this.apiEndpointUris = apiEndpointUris;
     }
 
