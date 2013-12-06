@@ -115,6 +115,10 @@ public class MyTimetableServiceImpl implements MyTimetableService, Configuration
         client = builder.build();
     }
 
+    public Configuration getConfiguration() {
+        return configuration;
+    }
+
     @Override
     public List<Event> getUpcomingEvents(String username) {
         ArrayList<HttpUriRequest> requests = getApiRequests(username);
