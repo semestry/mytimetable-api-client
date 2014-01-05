@@ -19,7 +19,9 @@ jar {
 }
 
 repositories {
-    mavenCentral()
+    maven {
+        url "https://maven.eveoh.nl/content/groups/public"
+    }
 }
 
 dependencies {
@@ -33,22 +35,22 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
 }
 
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
-configurations {
-    deployerJars
-}
-
-dependencies {
-    deployerJars "org.apache.maven.wagon:wagon-ssh-external:2.2"
-}
-
-uploadArchives {
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
     repositories {
-        mavenDeployer {
-            configuration = configurations.deployerJars
-            repository(url: "scpexe://p-web-01.eveoh.nl/var/www/dl.eveoh.nl/maven2") {
-                authentication(userName: eveohMavenUser)
+        maven {
+            url "https://maven.eveoh.nl/content/repositories/releases"
+            if (project.hasProperty('mavenUser')) {
+                credentials {
+                    username mavenUser
+                    password mavenPass
+                }
             }
         }
     }
