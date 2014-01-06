@@ -17,8 +17,8 @@ public class WidgetConfiguration extends Configuration {
     private String customCss;
 
 
-
-    public WidgetConfiguration() {}
+    public WidgetConfiguration() {
+    }
 
     public WidgetConfiguration(Properties properties) {
         super(properties);
@@ -38,7 +38,8 @@ public class WidgetConfiguration extends Configuration {
     public Properties toProperties() {
         Properties ret = super.toProperties();
 
-        ret.setProperty(CUSTOM_CSS, customCss);
+        if (customCss != null)
+            ret.setProperty(CUSTOM_CSS, customCss);
 
         return ret;
     }

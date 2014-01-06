@@ -70,7 +70,8 @@ public class MyTimetableServiceImpl implements MyTimetableService, Configuration
 
     public MyTimetableServiceImpl(Configuration configuration, MyTimetableHttpClientBuilder clientBuilder) {
         this.configuration = configuration;
-        this.clientBuilder = clientBuilder;
+        if (clientBuilder != null)
+            this.clientBuilder = clientBuilder;
 
         reinitializeHttpClient();
 
