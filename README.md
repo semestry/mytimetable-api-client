@@ -11,7 +11,6 @@ The API is a bit rough, and some of the Blackboard/Sakai components are leaking 
 good enough for general use. You need a MyTimetable 'elevated' API token and
 
 ```java
-
 Configuration config = new Configuration();
 config.getApiEndpointUris().add("https://demo.eveoh.nl/api/v0/");
 config.setApiKey("MY-API-KEY");
@@ -24,7 +23,23 @@ upcomingEvents = service.getUpcomingEvents(username);
 
 // Release after use (e.g., in ContextListener)
 service.release();
+```
 
+Availability
+------------
+
+The library is available from our Maven repo. Example Gradle config:
+
+```groovy
+repositories {
+    maven {
+        url "https://maven.eveoh.nl/content/repositories/releases"
+    }
+}
+
+dependencies {
+    compile "nl.eveoh.mytimetable:mytimetable-api-client:1.1.1"
+}
 ```
 
 Logging
