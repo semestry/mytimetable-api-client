@@ -39,18 +39,10 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
  */
 public class MyTimetableHttpClientBuilderImpl implements MyTimetableHttpClientBuilder {
 
-    private final Configuration configuration;
-
-
-
-    public MyTimetableHttpClientBuilderImpl(Configuration configuration) {
-        this.configuration = configuration;
-    }
-
-    public CloseableHttpClient build() {
+    public CloseableHttpClient build(Configuration configuration) {
         Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
                 .register("http", new PlainConnectionSocketFactory())
-                .register("https", createSslSocketFactory())
+                .register("https", createSslSocketFactory(configuration))
                 .build();
 
         // Create the Connection manager.
@@ -62,7 +54,7 @@ public class MyTimetableHttpClientBuilderImpl implements MyTimetableHttpClientBu
         return HttpClients.custom().setConnectionManager(connectionManager).build();
     }
 
-    private SSLConnectionSocketFactory createSslSocketFactory() {
+    private SSLConnectionSocketFactory createSslSocketFactory(Configuration configuration) {
         X509HostnameVerifier verifier;
         if (configuration.isApiSslCnCheck()) {
             verifier = SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER;

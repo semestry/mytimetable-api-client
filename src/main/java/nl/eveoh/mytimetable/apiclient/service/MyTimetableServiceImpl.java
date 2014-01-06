@@ -51,35 +51,28 @@ import java.util.List;
 /**
  * Implementation of the MyTimetableService interface.
  *
- * @see MyTimetableService
- *
  * @author Marco Krikke
  * @author Erik van Paassen
+ * @see MyTimetableService
  */
 public class MyTimetableServiceImpl implements MyTimetableService, ConfigurationChangeListener {
 
     private static final Logger log = LoggerFactory.getLogger(MyTimetableServiceImpl.class);
 
-    private static CloseableHttpClient client = null;
+    private CloseableHttpClient client = null;
 
-    private MyTimetableHttpClientBuilder clientBuilder = null;
+    private MyTimetableHttpClientBuilder clientBuilder = new MyTimetableHttpClientBuilderImpl();
 
     private ObjectMapper mapper = new ObjectMapper();
 
     private Configuration configuration;
 
 
-
     public MyTimetableServiceImpl(Configuration configuration, MyTimetableHttpClientBuilder clientBuilder) {
         this.configuration = configuration;
+        this.clientBuilder = clientBuilder;
 
-        if (clientBuilder != null) {
-            this.clientBuilder = clientBuilder;
-        }
-
-        if (client == null) {
-            reinitializeHttpClient(configuration);
-        }
+        reinitializeHttpClient();
 
         // Make sure the Jackson ObjectMapper does not fail on other properties in the JSON response.
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -92,27 +85,12 @@ public class MyTimetableServiceImpl implements MyTimetableService, Configuration
     @Override
     public void onConfigurationChanged(Configuration configuration) {
         this.configuration = configuration;
-        reinitializeHttpClient(configuration, clientBuilder);
+        reinitializeHttpClient();
     }
 
-    public static void reinitializeHttpClient(Configuration configuration) {
-        reinitializeHttpClient(configuration, null);
-    }
-
-    public static void reinitializeHttpClient(Configuration configuration, MyTimetableHttpClientBuilder builder) {
-        if (builder == null) {
-            builder = new MyTimetableHttpClientBuilderImpl(configuration);
-        }
-
-        if (client != null) {
-            try {
-                client.close();
-            } catch (IOException e) {
-                log.warn("Error while closing HttpClient.", e);
-            }
-        }
-
-        client = builder.build();
+    public void reinitializeHttpClient() {
+        this.close();
+        client = clientBuilder.build(configuration);
     }
 
     public Configuration getConfiguration() {
@@ -161,11 +139,23 @@ public class MyTimetableServiceImpl implements MyTimetableService, Configuration
         return null;
     }
 
+    @Override
+    public void close() {
+        if (client != null) {
+            try {
+                client.close();
+                client = null;
+            } catch (IOException e) {
+                log.warn("Could not close HttpClient", e);
+            }
+        }
+    }
+
     /**
      * Creates a request for each MyTimetable API endpoint defined in the configuration.
      *
-     * @param username      Username the fetch the upcoming events for.
-     * @return              List of {@link HttpUriRequest} objects, which should be executed in order, until a result is acquired.
+     * @param username Username the fetch the upcoming events for.
+     * @return List of {@link HttpUriRequest} objects, which should be executed in order, until a result is acquired.
      */
     private ArrayList<HttpUriRequest> getApiRequests(String username) {
         if (StringUtils.isBlank(username)) {

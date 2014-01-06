@@ -22,12 +22,13 @@ package nl.eveoh.mytimetable.apiclient.service;
 
 import nl.eveoh.mytimetable.apiclient.model.Event;
 
+import java.io.Closeable;
 import java.util.List;
 
 /**
  * Interface for a service which communicates with the MyTimetable API.
  */
-public interface MyTimetableService {
+public interface MyTimetableService extends Closeable {
 
     /**
      * Returns the upcoming events for the given user.
@@ -37,4 +38,5 @@ public interface MyTimetableService {
      * @return List of events for the user.
      */
     public List<Event> getUpcomingEvents(String username);
+
 }

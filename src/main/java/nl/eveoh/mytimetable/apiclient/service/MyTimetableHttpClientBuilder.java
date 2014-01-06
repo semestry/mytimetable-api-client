@@ -1,5 +1,6 @@
 package nl.eveoh.mytimetable.apiclient.service;
 
+import nl.eveoh.mytimetable.apiclient.configuration.Configuration;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 /**
@@ -10,7 +11,8 @@ public interface MyTimetableHttpClientBuilder {
     /**
      * Creates a thread-safe HttpClient instance.
      *
-     * @return              Thread-safe HttpClient.
+     * @param configuration {@link Configuration} object containing the configuration data to configure the HttpClient with.
+     * @return Thread-safe HttpClient.
      */
-    public CloseableHttpClient build();
+    public CloseableHttpClient build(Configuration configuration);
 }
