@@ -8,7 +8,7 @@ Usage
 -----
 
 The API is a bit rough, and some of the Blackboard/Sakai components are leaking through, but it should be
-good enough for general use. You need a MyTimetable 'elevated' API token and
+good enough for general use. You need a MyTimetable 'elevated' API token and the URL of the MyTimetable API.
 
 ```java
 Configuration config = new Configuration();
