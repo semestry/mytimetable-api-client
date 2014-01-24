@@ -22,7 +22,7 @@ MyTimetableService service = new MyTimetableServiceImpl(config);
 upcomingEvents = service.getUpcomingEvents(username);
 
 // Release after use (e.g., in ContextListener)
-service.release();
+service.close();
 ```
 
 Availability
