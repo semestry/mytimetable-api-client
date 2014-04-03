@@ -16,17 +16,27 @@
 
 package nl.eveoh.mytimetable.apiclient.model;
 
+import java.util.ArrayList;
+
 /**
  * Location for an event.
  *
  * @author Marco Krikke
+ * @author Erik van Paassen
  */
 public class Location {
+
+    private ArrayList<String> avoidConcurrencyLocationIds;
+    private String capacity;
+    private String id;
+    private String key;
 
     /**
      * Name of the location.
      */
     private String name;
+
+    private String url;
 
 
 
@@ -34,6 +44,46 @@ public class Location {
 
     public Location(String name) {
         this.name = name;
+    }
+
+    public ArrayList<String> getAvoidConcurrencyLocationIds() {
+        return avoidConcurrencyLocationIds;
+    }
+
+    public void setAvoidConcurrencyLocationIds(ArrayList<String> avoidConcurrencyLocationIds) {
+        this.avoidConcurrencyLocationIds = avoidConcurrencyLocationIds;
+    }
+
+    public String getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(String capacity) {
+        this.capacity = capacity;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getName() {

@@ -16,14 +16,17 @@
 
 package nl.eveoh.mytimetable.apiclient.service;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.net.UrlEscapers;
 import nl.eveoh.mytimetable.apiclient.configuration.Configuration;
-import nl.eveoh.mytimetable.apiclient.configuration.ConfigurationChangeListener;
+import nl.eveoh.mytimetable.apiclient.exception.HttpException;
 import nl.eveoh.mytimetable.apiclient.exception.LocalizableException;
-import nl.eveoh.mytimetable.apiclient.model.Event;
+import nl.eveoh.mytimetable.apiclient.model.*;
+import nl.eveoh.mytimetable.apiclient.service.mapper.EventListStreamMapper;
+import nl.eveoh.mytimetable.apiclient.service.mapper.StreamMapper;
+import nl.eveoh.mytimetable.apiclient.service.mapper.TimetableFilterTypeListMapper;
+import nl.eveoh.mytimetable.apiclient.service.mapper.TimetableListMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
@@ -40,18 +43,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
- * Implementation of the MyTimetableService interface.
+ * Implementation of the {@link MyTimetableService} interface.
  *
  * @author Marco Krikke
  * @author Erik van Paassen
- * @see MyTimetableService
  */
-public class MyTimetableServiceImpl implements MyTimetableService, ConfigurationChangeListener {
+public class MyTimetableServiceImpl implements MyTimetableService {
 
     private static final Logger log = LoggerFactory.getLogger(MyTimetableServiceImpl.class);
 
@@ -66,8 +66,10 @@ public class MyTimetableServiceImpl implements MyTimetableService, Configuration
 
     public MyTimetableServiceImpl(Configuration configuration, MyTimetableHttpClientBuilder clientBuilder) {
         this.configuration = configuration;
-        if (clientBuilder != null)
+
+        if (clientBuilder != null) {
             this.clientBuilder = clientBuilder;
+        }
 
         reinitializeHttpClient();
 
@@ -79,14 +81,19 @@ public class MyTimetableServiceImpl implements MyTimetableService, Configuration
         this(configuration, null);
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration configuration) {
+    public void setConfiguration(Configuration configuration) {
         this.configuration = configuration;
         reinitializeHttpClient();
     }
 
     public void reinitializeHttpClient() {
         this.close();
+
+        if (StringUtils.isBlank(configuration.getApiKey())) {
+            log.error("API key cannot be empty.");
+            throw new LocalizableException("API key cannot be empty.");
+        }
+
         client = clientBuilder.build(configuration);
     }
 
@@ -95,8 +102,120 @@ public class MyTimetableServiceImpl implements MyTimetableService, Configuration
     }
 
     @Override
-    public List<Event> getUpcomingEvents(String username) {
-        ArrayList<HttpUriRequest> requests = getApiRequests(username);
+    public List<Event> getTimetableByKey(String key, Date startDate, Date endDate, int limit) {
+        HashMap<String, String> params = new HashMap<String, String>();
+
+        if (startDate != null) {
+            params.put("startDate", Long.toString(startDate.getTime()));
+        }
+        if (endDate != null) {
+            params.put("endDate", Long.toString(endDate.getTime()));
+        }
+        if (limit > 0) {
+            params.put("limit", Integer.toString(limit));
+        }
+
+        String encodedKey = UrlEscapers.urlPathSegmentEscaper().escape(key);
+        return performRequest(new EventListStreamMapper(mapper), "timetable/" + encodedKey, params, null);
+    }
+
+    @Override
+    public List<Event> getTimetableByHostKey(String key, String type, Date startDate, Date endDate, int limit) {
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("fetchBy", "hostKey");
+        params.put("type", type);
+
+        if (startDate != null) {
+            params.put("startDate", Long.toString(startDate.getTime()));
+        }
+        if (endDate != null) {
+            params.put("endDate", Long.toString(endDate.getTime()));
+        }
+        if (limit > 0) {
+            params.put("limit", Integer.toString(limit));
+        }
+
+        String encodedKey = UrlEscapers.urlPathSegmentEscaper().escape(key);
+        return performRequest(new EventListStreamMapper(mapper), "timetables/" + encodedKey, params, null);
+    }
+
+    @Override
+    public List<Timetable> getTimetables(String type, String d, String q, Map<String, TimetableFilterOption> filters, int limit, int offset) {
+        HashMap<String, String> params = new HashMap<String, String>();
+
+        params.put("type", type);
+
+        if (d != null) {
+            params.put("d", d);
+        }
+        if (q != null) {
+            params.put("q", q);
+        }
+        if (limit > 0) {
+            params.put("limit", Integer.toString(limit));
+        }
+        if (offset > 0) {
+            params.put("offset", Integer.toString(offset));
+        }
+
+        if (filters != null) {
+            for (Map.Entry<String, TimetableFilterOption> filter : filters.entrySet()) {
+                params.put(filter.getKey() + "Filter", filter.getValue().getValue());
+            }
+        }
+
+        return performRequest(new TimetableListMapper(mapper), "timetables", params, null);
+    }
+
+    @Override
+    public List<TimetableFilterType> getTimetableFilters(String type, String d, Map<String, TimetableFilterOption> filters) {
+        HashMap<String, String> params = new HashMap<String, String>();
+
+        params.put("type", type);
+
+        if (d != null) {
+            params.put("d", d);
+        }
+
+        if (filters != null) {
+            for (Map.Entry<String, TimetableFilterOption> filter : filters.entrySet()) {
+                params.put(filter.getKey() + "Filter", filter.getValue().getValue());
+            }
+        }
+
+        return performRequest(new TimetableFilterTypeListMapper(mapper), "timetablefilters", params, null);
+    }
+
+    @Override
+    public List<Event> getUpcomingEvents(String username, int limit) {
+        if (StringUtils.isBlank(username)) {
+            log.error("Username cannot be empty.");
+            throw new LocalizableException("Username cannot be empty.", "notLoggedIn");
+        }
+
+        HashMap<String, String> params = new HashMap<String, String>();
+
+        Date currentTime = new Date();
+        params.put("startDate", Long.toString(currentTime.getTime()));
+        params.put("limit", Integer.toString(limit));
+
+        return performRequest(new EventListStreamMapper(mapper), "timetable", params, username);
+    }
+
+    @Override
+    public void close() {
+        if (client != null) {
+            try {
+                client.close();
+                client = null;
+            } catch (IOException e) {
+                log.warn("Could not close HttpClient", e);
+            }
+        }
+    }
+
+    private <T> T performRequest(StreamMapper<T> mapper, String path, Map<String, String> params, String requestedAuth) {
+        ArrayList<HttpUriRequest> requests = getApiRequests(path, params, requestedAuth);
 
         for (HttpUriRequest request : requests) {
             CloseableHttpResponse response = null;
@@ -109,11 +228,7 @@ public class MyTimetableServiceImpl implements MyTimetableService, Configuration
                     InputStream stream = entity.getContent();
 
                     try {
-                        return mapper.readValue(stream, mapper.getTypeFactory().constructCollectionType(List.class, Event.class));
-                    } catch (JsonParseException e) {
-                        log.error("Could not fetch results from MyTimetable API.", e);
-                    } catch (JsonMappingException e) {
-                        log.error("Could not fetch results from MyTimetable API.", e);
+                        return mapper.map(stream);
                     } finally {
                         stream.close();
                     }
@@ -133,68 +248,42 @@ public class MyTimetableServiceImpl implements MyTimetableService, Configuration
             }
         }
 
-        return null;
-    }
-
-    @Override
-    public void close() {
-        if (client != null) {
-            try {
-                client.close();
-                client = null;
-            } catch (IOException e) {
-                log.warn("Could not close HttpClient", e);
-            }
+        if (requests.isEmpty()) {
+            throw new RuntimeException("No API request has been built.");
+        } else {
+            throw new HttpException("Could not fetch results from MyTimetable API.");
         }
     }
 
     /**
      * Creates a request for each MyTimetable API endpoint defined in the configuration.
      *
-     * @param username Username the fetch the upcoming events for.
+     * @param requestedAuth Username the fetch the upcoming events for.
      * @return List of {@link HttpUriRequest} objects, which should be executed in order, until a result is acquired.
      */
-    private ArrayList<HttpUriRequest> getApiRequests(String username) {
-        if (StringUtils.isBlank(username)) {
-            log.error("Username cannot be empty.");
-            throw new LocalizableException("Username cannot be empty.", "notLoggedIn");
-        }
-
-        if (StringUtils.isBlank(configuration.getApiKey())) {
-            log.error("API key cannot be empty.");
-            throw new LocalizableException("API key cannot be empty.");
-        }
-
-        // Prefix the username, for example when MyTimetable is used in a domain.
-        String domainPrefix = configuration.getUsernameDomainPrefix();
-        if (domainPrefix != null && !domainPrefix.isEmpty()) {
-            username = domainPrefix + '\\' + username;
-        }
-
-        // build request URI
-        Date currentTime = new Date();
-
+    private ArrayList<HttpUriRequest> getApiRequests(String path, Map<String, String> params, String requestedAuth) {
         ArrayList<HttpUriRequest> requests = new ArrayList<HttpUriRequest>();
 
         for (String uri : configuration.getApiEndpointUris()) {
-            String baseUrl;
-
-            if (uri.endsWith("/")) {
-                baseUrl = uri + "timetable";
-            } else {
-                baseUrl = uri + "/timetable";
+            StringBuilder baseUrl = new StringBuilder(uri);
+            if (!uri.endsWith("/")) {
+                baseUrl.append('/');
             }
+            baseUrl.append(path);
 
             try {
-                URIBuilder uriBuilder = new URIBuilder(baseUrl);
-                uriBuilder.addParameter("startDate", Long.toString(currentTime.getTime()));
-                uriBuilder.addParameter("limit", Integer.toString(configuration.getNumberOfEvents()));
+                URIBuilder uriBuilder = new URIBuilder(baseUrl.toString());
+                for (Map.Entry<String, String> param : params.entrySet()) {
+                    uriBuilder.addParameter(param.getKey(), param.getValue());
+                }
 
                 URI apiUri = uriBuilder.build();
 
                 HttpGet request = new HttpGet(apiUri);
                 request.addHeader("apiToken", configuration.getApiKey());
-                request.addHeader("requestedAuth", username);
+                if (StringUtils.isNotBlank(requestedAuth)) {
+                    request.addHeader("requestedAuth", requestedAuth);
+                }
 
                 // Configure request timeouts.
                 RequestConfig requestConfig = RequestConfig.custom()

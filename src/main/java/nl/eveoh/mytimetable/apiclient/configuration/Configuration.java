@@ -34,10 +34,6 @@ public class Configuration {
     private static final String API_CONNECT_TIMEOUT = "apiConnectTimeout";
     private static final String API_SOCKET_TIMEOUT = "apiSocketTimeout";
     private static final String API_MAX_CONNECTIONS = "apiMaxConnections";
-    private static final String APPLICATION_URI = "applicationUri";
-    private static final String APPLICATION_TARGET = "applicationTarget";
-    private static final String USERNAME_DOMAIN_PREFIX = "usernameDomainPrefix";
-    private static final String NUMBER_OF_EVENTS = "numberOfEvents";
 
     /**
      * Key used for communicating with the MyTimetable API.
@@ -79,35 +75,6 @@ public class Configuration {
      */
     private int apiMaxConnections = 20;
 
-    /**
-     * URL to the full MyTimetable application.
-     * <p/>
-     * Should be something like <tt>https://timetable.institution.ac.uk/</tt>.
-     */
-    private String applicationUri = null;
-
-    /**
-     * Target of the full application link.
-     * <p/>
-     * Should be <tt>_self</tt>, <tt>_blank</tt>, <tt>_parent</tt>, or <tt>_top</tt>. Defaults to <tt>_blank</tt>.
-     */
-    private String applicationTarget = "_blank";
-
-    /**
-     * Number of events to.
-     * <p/>
-     * Defaults to 5.
-     */
-    private int numberOfEvents = 5;
-
-    /**
-     * Domain to prefix usernames with.
-     * <p/>
-     * Defaults to {@code null}.
-     */
-    private String usernameDomainPrefix;
-
-
 
     public Configuration() {}
 
@@ -137,14 +104,6 @@ public class Configuration {
 
         try {
             apiMaxConnections = Integer.parseInt(properties.getProperty(API_MAX_CONNECTIONS));
-        } catch (NumberFormatException e) { /* Do nothing, keep default value. */ }
-
-        applicationUri = properties.getProperty(APPLICATION_URI);
-        applicationTarget = properties.getProperty(APPLICATION_TARGET);
-        usernameDomainPrefix = properties.getProperty(USERNAME_DOMAIN_PREFIX);
-
-        try {
-            numberOfEvents = Integer.parseInt(properties.getProperty(NUMBER_OF_EVENTS));
         } catch (NumberFormatException e) { /* Do nothing, keep default value. */ }
     }
 
@@ -196,38 +155,6 @@ public class Configuration {
         this.apiMaxConnections = apiMaxConnections;
     }
 
-    public String getApplicationUri() {
-        return applicationUri;
-    }
-
-    public void setApplicationUri(String applicationUri) {
-        this.applicationUri = applicationUri;
-    }
-
-    public String getApplicationTarget() {
-        return applicationTarget;
-    }
-
-    public void setApplicationTarget(String applicationTarget) {
-        this.applicationTarget = applicationTarget;
-    }
-
-    public int getNumberOfEvents() {
-        return numberOfEvents;
-    }
-
-    public void setNumberOfEvents(int numberOfEvents) {
-        this.numberOfEvents = numberOfEvents;
-    }
-
-    public String getUsernameDomainPrefix() {
-        return usernameDomainPrefix;
-    }
-
-    public void setUsernameDomainPrefix(String usernameDomainPrefix) {
-        this.usernameDomainPrefix = usernameDomainPrefix;
-    }
-
     /**
      * Creates a {@link Properties} object containing the configuration values.
      *
@@ -235,14 +162,6 @@ public class Configuration {
      */
     public Properties toProperties() {
         Properties ret = new Properties();
-
-        if (applicationUri != null) {
-            ret.setProperty(APPLICATION_URI, applicationUri);
-        }
-
-        if (applicationTarget != null) {
-            ret.setProperty(APPLICATION_TARGET, applicationTarget);
-        }
 
         StringBuilder uris = new StringBuilder();
         for (String apiEndpointUri : apiEndpointUris) {
@@ -261,12 +180,6 @@ public class Configuration {
 
         if (apiKey != null) {
             ret.setProperty(API_KEY, apiKey);
-        }
-
-        ret.setProperty(NUMBER_OF_EVENTS, String.valueOf(numberOfEvents));
-
-        if (usernameDomainPrefix != null) {
-            ret.setProperty(USERNAME_DOMAIN_PREFIX, usernameDomainPrefix);
         }
 
         return ret;
