@@ -171,6 +171,12 @@ public class MyTimetableServiceImpl implements MyTimetableService, Configuration
             username = domainPrefix + '\\' + username;
         }
 
+        // Postfix the username, for example when usernames need a domain postfix
+        String postfix = configuration.getUsernamePostfix();
+        if (postfix != null && !postfix.isEmpty()) {
+            username = username + postfix;
+        }
+
         // build request URI
         Date currentTime = new Date();
 

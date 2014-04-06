@@ -37,6 +37,7 @@ public class Configuration {
     private static final String APPLICATION_URI = "applicationUri";
     private static final String APPLICATION_TARGET = "applicationTarget";
     private static final String USERNAME_DOMAIN_PREFIX = "usernameDomainPrefix";
+    private static final String USERNAME_POSTFIX = "usernamePostfix";
     private static final String NUMBER_OF_EVENTS = "numberOfEvents";
 
     /**
@@ -101,15 +102,21 @@ public class Configuration {
     private int numberOfEvents = 5;
 
     /**
-     * Domain to prefix usernames with.
+     * Domain to prefix usernames with (excluding slash delimiter).
      * <p/>
      * Defaults to {@code null}.
      */
     private String usernameDomainPrefix;
 
-
+    /**
+     * String to postfix usernames with.
+     * <p/>
+     * Defaults to {@code null}.
+     */
+    private String usernamePostfix;
 
     public Configuration() {}
+
 
     public Configuration(Properties properties) {
         apiKey = properties.getProperty(API_KEY);
@@ -142,6 +149,7 @@ public class Configuration {
         applicationUri = properties.getProperty(APPLICATION_URI);
         applicationTarget = properties.getProperty(APPLICATION_TARGET);
         usernameDomainPrefix = properties.getProperty(USERNAME_DOMAIN_PREFIX);
+        usernamePostfix = properties.getProperty(USERNAME_POSTFIX);
 
         try {
             numberOfEvents = Integer.parseInt(properties.getProperty(NUMBER_OF_EVENTS));
@@ -228,6 +236,14 @@ public class Configuration {
         this.usernameDomainPrefix = usernameDomainPrefix;
     }
 
+    public String getUsernamePostfix() {
+        return usernamePostfix;
+    }
+
+    public void setUsernamePostfix(String usernamePostfix) {
+        this.usernamePostfix = usernamePostfix;
+    }
+
     /**
      * Creates a {@link Properties} object containing the configuration values.
      *
@@ -267,6 +283,10 @@ public class Configuration {
 
         if (usernameDomainPrefix != null) {
             ret.setProperty(USERNAME_DOMAIN_PREFIX, usernameDomainPrefix);
+        }
+
+        if (usernamePostfix != null) {
+            ret.setProperty(USERNAME_POSTFIX, usernamePostfix);
         }
 
         return ret;
