@@ -21,7 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.net.UrlEscapers;
 import nl.eveoh.mytimetable.apiclient.configuration.Configuration;
 import nl.eveoh.mytimetable.apiclient.exception.HttpException;
-import nl.eveoh.mytimetable.apiclient.exception.LocalizableException;
+import nl.eveoh.mytimetable.apiclient.exception.InvalidConfigurationException;
+import nl.eveoh.mytimetable.apiclient.exception.NoUsableMyTimetableApiUrlException;
 import nl.eveoh.mytimetable.apiclient.model.*;
 import nl.eveoh.mytimetable.apiclient.service.mapper.EventListStreamMapper;
 import nl.eveoh.mytimetable.apiclient.service.mapper.StreamMapper;
@@ -91,7 +92,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
         if (StringUtils.isBlank(configuration.getApiKey())) {
             log.error("API key cannot be empty.");
-            throw new LocalizableException("API key cannot be empty.");
+            throw new InvalidConfigurationException("API key cannot be empty.");
         }
 
         client = clientBuilder.build(configuration);
@@ -190,7 +191,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
     public List<Event> getUpcomingEvents(String username, int limit) {
         if (StringUtils.isBlank(username)) {
             log.error("Username cannot be empty.");
-            throw new LocalizableException("Username cannot be empty.", "notLoggedIn");
+            throw new IllegalArgumentException("Username cannot be empty.");
         }
 
         HashMap<String, String> params = new HashMap<String, String>();
@@ -301,7 +302,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
         if (requests.isEmpty()) {
             log.error("No usable MyTimetable API url.");
-            throw new LocalizableException("No usable MyTimetable API url.");
+            throw new NoUsableMyTimetableApiUrlException("No usable MyTimetable API url.");
         }
 
         return requests;
