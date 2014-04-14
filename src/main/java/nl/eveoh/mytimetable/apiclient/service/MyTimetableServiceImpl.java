@@ -24,10 +24,7 @@ import nl.eveoh.mytimetable.apiclient.exception.HttpException;
 import nl.eveoh.mytimetable.apiclient.exception.InvalidConfigurationException;
 import nl.eveoh.mytimetable.apiclient.exception.NoUsableMyTimetableApiUrlException;
 import nl.eveoh.mytimetable.apiclient.model.*;
-import nl.eveoh.mytimetable.apiclient.service.mapper.EventListStreamMapper;
-import nl.eveoh.mytimetable.apiclient.service.mapper.StreamMapper;
-import nl.eveoh.mytimetable.apiclient.service.mapper.TimetableFilterTypeListMapper;
-import nl.eveoh.mytimetable.apiclient.service.mapper.TimetableListMapper;
+import nl.eveoh.mytimetable.apiclient.service.mapper.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
@@ -142,6 +139,15 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
     @Override
     public List<Timetable> getTimetables(String type, String d, String q, Map<String, TimetableFilterOption> filters, int limit, int offset) {
+        return getTimetables(new TimetableListMapper(mapper), type, d, q, filters, limit, offset);
+    }
+
+    @Override
+    public List<LocationTimetable> getLocationTimetables(String type, String d, String q, Map<String, TimetableFilterOption> filters, int limit, int offset) {
+        return getTimetables(new LocationTimetableListMapper(mapper), type, d, q, filters, limit, offset);
+    }
+
+    private <T> T getTimetables(StreamMapper<T> streamMapper, String type, String d, String q, Map<String, TimetableFilterOption> filters, int limit, int offset) {
         HashMap<String, String> params = new HashMap<String, String>();
 
         params.put("type", type);
@@ -165,7 +171,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
             }
         }
 
-        return performRequest(new TimetableListMapper(mapper), "timetables", params, null);
+        return performRequest(streamMapper, "timetables", params, null);
     }
 
     @Override

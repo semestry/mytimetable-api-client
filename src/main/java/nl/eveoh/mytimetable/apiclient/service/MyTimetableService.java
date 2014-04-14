@@ -16,10 +16,7 @@
 
 package nl.eveoh.mytimetable.apiclient.service;
 
-import nl.eveoh.mytimetable.apiclient.model.Event;
-import nl.eveoh.mytimetable.apiclient.model.Timetable;
-import nl.eveoh.mytimetable.apiclient.model.TimetableFilterOption;
-import nl.eveoh.mytimetable.apiclient.model.TimetableFilterType;
+import nl.eveoh.mytimetable.apiclient.model.*;
 
 import java.io.Closeable;
 import java.util.Date;
@@ -66,6 +63,8 @@ public interface MyTimetableService extends Closeable {
     public List<Event> getTimetableByHostKey(String key, String type, Date startDate, Date endDate, int limit);
 
     public List<Timetable> getTimetables(String type, String d, String q, Map<String, TimetableFilterOption> filters, int limit, int offset);
+
+    public List<LocationTimetable> getLocationTimetables(String type, String d, String q, Map<String, TimetableFilterOption> filters, int limit, int offset);
 
     public List<TimetableFilterType> getTimetableFilters(String type, String d, Map<String, TimetableFilterOption> filters);
 }
