@@ -1,8 +1,7 @@
 apply plugin: 'java'
-apply plugin: 'maven'
 
 description = 'MyTimetable API client'
-version = '2.0.0-SNAPSHOT'
+version = '2.0.0-M1'
 
 group = 'nl.eveoh.mytimetable'
 
@@ -24,7 +23,6 @@ repositories {
     maven {
         url "https://maven.eveoh.nl/content/groups/public"
     }
-    mavenLocal()
 }
 
 dependencies {
