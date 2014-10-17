@@ -16,7 +16,12 @@
 
 package nl.eveoh.mytimetable.apiclient.configuration;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -39,6 +44,11 @@ public class Configuration {
     private static final String USERNAME_DOMAIN_PREFIX = "usernameDomainPrefix";
     private static final String USERNAME_POSTFIX = "usernamePostfix";
     private static final String NUMBER_OF_EVENTS = "numberOfEvents";
+    private static final String TIMETABLE_TYPES = "timetableTypes";
+
+    private static final String[] DEFAULT_TIMETABLE_TYPES =
+            new String[] { "module", "pos", "posgroup", "studentsetgroup", "posss", "student", "staff", "activitygroup",
+                    "modulepos", "studentset" };
 
     /**
      * Key used for communicating with the MyTimetable API.
@@ -115,8 +125,16 @@ public class Configuration {
      */
     private String usernamePostfix;
 
-    public Configuration() {}
+    /**
+     * List of timetable type identifiers of which activities should be included when retrieving the user's personal
+     * timetable. Can be empty to include all activities. Defaults to 'module', 'pos', 'posgroup', 'studentsetgroup',
+     * 'posss', 'student', 'staff', 'activitygroup', 'modulepos', 'studentset' (i.e., all non-location timetables)
+     */
+    private final List<String> timetableTypes;
 
+    public Configuration() {
+        timetableTypes = new ArrayList<String>(Arrays.asList(DEFAULT_TIMETABLE_TYPES));
+    }
 
     public Configuration(Properties properties) {
         apiKey = properties.getProperty(API_KEY);
@@ -151,10 +169,18 @@ public class Configuration {
         usernameDomainPrefix = properties.getProperty(USERNAME_DOMAIN_PREFIX);
         usernamePostfix = properties.getProperty(USERNAME_POSTFIX);
 
+        String timetableTypesStr = properties.getProperty(TIMETABLE_TYPES);
+        if (!Strings.isNullOrEmpty(timetableTypesStr)) {
+            timetableTypes = new ArrayList<String>(Splitter.on(';').trimResults().omitEmptyStrings().splitToList(timetableTypesStr));
+        } else {
+            timetableTypes = new ArrayList<String>(Arrays.asList(DEFAULT_TIMETABLE_TYPES));
+        }
+
         try {
             numberOfEvents = Integer.parseInt(properties.getProperty(NUMBER_OF_EVENTS));
         } catch (NumberFormatException e) { /* Do nothing, keep default value. */ }
     }
+
 
     public String getApiKey() {
         return apiKey;
@@ -244,6 +270,10 @@ public class Configuration {
         this.usernamePostfix = usernamePostfix;
     }
 
+    public List<String> getTimetableTypes() {
+        return timetableTypes;
+    }
+
     /**
      * Creates a {@link Properties} object containing the configuration values.
      *
@@ -287,6 +317,10 @@ public class Configuration {
 
         if (usernamePostfix != null) {
             ret.setProperty(USERNAME_POSTFIX, usernamePostfix);
+        }
+
+        if (!timetableTypes.isEmpty()) {
+            ret.setProperty(TIMETABLE_TYPES, Joiner.on(';').skipNulls().join(timetableTypes));
         }
 
         return ret;
