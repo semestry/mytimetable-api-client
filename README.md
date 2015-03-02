@@ -38,7 +38,7 @@ repositories {
 }
 
 dependencies {
-    compile "nl.eveoh.mytimetable:mytimetable-api-client:1.1.2"
+    compile "nl.eveoh.mytimetable:mytimetable-api-client:1.1.4"
 }
 ```
 
