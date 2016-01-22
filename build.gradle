@@ -1,7 +1,7 @@
 apply plugin: 'java'
 
 description = 'MyTimetable API client'
-version = '1.1.4'
+version = '1.2.0'
 
 group = 'nl.eveoh.mytimetable'
 
