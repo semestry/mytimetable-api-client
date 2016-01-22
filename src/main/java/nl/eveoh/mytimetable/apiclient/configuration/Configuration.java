@@ -43,8 +43,11 @@ public class Configuration {
     private static final String APPLICATION_TARGET = "applicationTarget";
     private static final String USERNAME_DOMAIN_PREFIX = "usernameDomainPrefix";
     private static final String USERNAME_POSTFIX = "usernamePostfix";
-    private static final String NUMBER_OF_EVENTS = "numberOfEvents";
+    private static final String MAX_NUMBER_OF_EVENTS = "maxNumberOfEvents";
+    private static final String DEFAULT_NUMBER_OF_EVENTS = "defaultNumberOfEvents";
     private static final String TIMETABLE_TYPES = "timetableTypes";
+    private static final String SHOW_ACTIVITY_TYPES = "showActivityType";
+    private static final String UNKNOWN_LOCATION_DESCRIPTION = "unknownLocationDescription";
 
     private static final String[] DEFAULT_TIMETABLE_TYPES =
             new String[] { "module", "pos", "posgroup", "studentsetgroup", "posss", "student", "staff", "activitygroup",
@@ -105,11 +108,18 @@ public class Configuration {
     private String applicationTarget = "_blank";
 
     /**
-     * Number of events to.
+     * Maximum number of events to display.
      * <p/>
      * Defaults to 5.
      */
-    private int numberOfEvents = 5;
+    private int maxNumberOfEvents = 5;
+
+    /**
+     * Number of events that is displayed by default
+     * <p/>
+     * Defaults to 5.
+     */
+    private int defaultNumberOfEvents = 5;
 
     /**
      * Domain to prefix usernames with (excluding slash delimiter).
@@ -131,6 +141,20 @@ public class Configuration {
      * 'posss', 'student', 'staff', 'activitygroup', 'modulepos', 'studentset' (i.e., all non-location timetables)
      */
     private final List<String> timetableTypes;
+
+    /**
+     * Show Activity Type in the overivew.
+     * <p/>
+     * Defaults to false;
+     */
+    private boolean showActivityType = true;
+
+    /**
+     * Replace the default text displayed when the location is unknown;
+     * <p/>
+     * Not set by default.
+     */
+    private String unknownLocationDescription;
 
     public Configuration() {
         timetableTypes = new ArrayList<String>(Arrays.asList(DEFAULT_TIMETABLE_TYPES));
@@ -177,8 +201,16 @@ public class Configuration {
         }
 
         try {
-            numberOfEvents = Integer.parseInt(properties.getProperty(NUMBER_OF_EVENTS));
+            maxNumberOfEvents = Integer.parseInt(properties.getProperty(MAX_NUMBER_OF_EVENTS));
         } catch (NumberFormatException e) { /* Do nothing, keep default value. */ }
+
+        try {
+            defaultNumberOfEvents = Integer.parseInt(properties.getProperty(DEFAULT_NUMBER_OF_EVENTS));
+        } catch (NumberFormatException e) { /* Do nothing, keep default value. */ }
+
+        showActivityType = Boolean.parseBoolean(properties.getProperty(SHOW_ACTIVITY_TYPES));
+
+        unknownLocationDescription = properties.getProperty(UNKNOWN_LOCATION_DESCRIPTION);
     }
 
 
@@ -246,12 +278,20 @@ public class Configuration {
         this.applicationTarget = applicationTarget;
     }
 
-    public int getNumberOfEvents() {
-        return numberOfEvents;
+    public int getMaxNumberOfEvents() {
+        return maxNumberOfEvents;
     }
 
-    public void setNumberOfEvents(int numberOfEvents) {
-        this.numberOfEvents = numberOfEvents;
+    public void setMaxNumberOfEvents(int maxNumberOfEvents) {
+        this.maxNumberOfEvents = maxNumberOfEvents;
+    }
+
+    public int getDefaultNumberOfEvents() {
+        return defaultNumberOfEvents;
+    }
+
+    public void setDefaultNumberOfEvents(int defaultNumberOfEvents) {
+        this.defaultNumberOfEvents = defaultNumberOfEvents;
     }
 
     public String getUsernameDomainPrefix() {
@@ -272,6 +312,22 @@ public class Configuration {
 
     public List<String> getTimetableTypes() {
         return timetableTypes;
+    }
+
+    public boolean isShowActivityType() {
+        return showActivityType;
+    }
+
+    public void setShowActivityType(boolean showActivityType) {
+        this.showActivityType = showActivityType;
+    }
+
+    public String getUnknownLocationDescription() {
+        return unknownLocationDescription;
+    }
+
+    public void setUnknownLocationDescription(String unknownLocationDescription) {
+        this.unknownLocationDescription = unknownLocationDescription;
     }
 
     /**
@@ -305,11 +361,14 @@ public class Configuration {
         ret.setProperty(API_SOCKET_TIMEOUT, String.valueOf(apiSocketTimeout));
         ret.setProperty(API_MAX_CONNECTIONS, String.valueOf(apiMaxConnections));
 
+        ret.setProperty(SHOW_ACTIVITY_TYPES, String.valueOf(showActivityType));
+        ret.setProperty(DEFAULT_NUMBER_OF_EVENTS, String.valueOf(defaultNumberOfEvents));
+
         if (apiKey != null) {
             ret.setProperty(API_KEY, apiKey);
         }
 
-        ret.setProperty(NUMBER_OF_EVENTS, String.valueOf(numberOfEvents));
+        ret.setProperty(MAX_NUMBER_OF_EVENTS, String.valueOf(maxNumberOfEvents));
 
         if (usernameDomainPrefix != null) {
             ret.setProperty(USERNAME_DOMAIN_PREFIX, usernameDomainPrefix);
@@ -321,6 +380,10 @@ public class Configuration {
 
         if (!timetableTypes.isEmpty()) {
             ret.setProperty(TIMETABLE_TYPES, Joiner.on(';').skipNulls().join(timetableTypes));
+        }
+
+        if (unknownLocationDescription != null) {
+            ret.setProperty(UNKNOWN_LOCATION_DESCRIPTION, unknownLocationDescription);
         }
 
         return ret;

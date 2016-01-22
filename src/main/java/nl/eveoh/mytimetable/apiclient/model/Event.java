@@ -52,15 +52,17 @@ public class Event {
     @JsonProperty(required = true)
     private List<Location> locations;
 
-
+    @JsonProperty(required = true)
+    private String activityTypeDescription;
 
     public Event() {}
 
-    public Event(String activityDescription, Date startDate, Date endDate, List<Location> locations) {
+    public Event(String activityDescription, Date startDate, Date endDate, List<Location> locations, String activityTypeDescription) {
         this.activityDescription = activityDescription;
         this.startDate = startDate;
         this.endDate = endDate;
         this.locations = locations;
+        this.activityTypeDescription = activityTypeDescription;
     }
 
     public String getActivityDescription() {
@@ -93,5 +95,13 @@ public class Event {
 
     public void setLocations(List<Location> locations) {
         this.locations = locations;
+    }
+
+    public String getActivityType() {
+        return activityTypeDescription;
+    }
+
+    public void setActivityType(String activityTypeDescription) {
+        this.activityTypeDescription = activityTypeDescription;
     }
 }
