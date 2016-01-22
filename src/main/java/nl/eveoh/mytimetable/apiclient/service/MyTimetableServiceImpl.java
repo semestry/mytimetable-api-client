@@ -194,7 +194,7 @@ public class MyTimetableServiceImpl implements MyTimetableService, Configuration
             try {
                 URIBuilder uriBuilder = new URIBuilder(baseUrl);
                 uriBuilder.addParameter("startDate", Long.toString(currentTime.getTime()));
-                uriBuilder.addParameter("limit", Integer.toString(configuration.getNumberOfEvents()));
+                uriBuilder.addParameter("limit", Integer.toString(configuration.getMaxNumberOfEvents()));
 
                 for (String type : configuration.getTimetableTypes()) {
                     uriBuilder.addParameter("type", type);
