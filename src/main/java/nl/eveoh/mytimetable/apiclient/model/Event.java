@@ -53,16 +53,16 @@ public class Event {
     private List<Location> locations;
 
     @JsonProperty(required = true)
-    private String activityTypeName;
+    private String activityTypeDescription;
 
     public Event() {}
 
-    public Event(String activityDescription, Date startDate, Date endDate, List<Location> locations, String activityTypeName) {
+    public Event(String activityDescription, Date startDate, Date endDate, List<Location> locations, String activityTypeDescription) {
         this.activityDescription = activityDescription;
         this.startDate = startDate;
         this.endDate = endDate;
         this.locations = locations;
-        this.activityTypeName = activityTypeName;
+        this.activityTypeDescription = activityTypeDescription;
     }
 
     public String getActivityDescription() {
@@ -98,10 +98,10 @@ public class Event {
     }
 
     public String getActivityType() {
-        return activityTypeName;
+        return activityTypeDescription;
     }
 
-    public void setActivityType(String activityTypeName) {
-        this.activityTypeName = activityTypeName;
+    public void setActivityType(String activityTypeDescription) {
+        this.activityTypeDescription = activityTypeDescription;
     }
 }
