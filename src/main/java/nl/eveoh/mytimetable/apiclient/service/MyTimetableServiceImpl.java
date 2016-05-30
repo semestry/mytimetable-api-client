@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 - 2014 Eveoh
+ * Copyright 2013 - 2016 Eveoh
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +43,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Implementation of the MyTimetableService interface.
@@ -96,7 +97,12 @@ public class MyTimetableServiceImpl implements MyTimetableService, Configuration
 
     @Override
     public List<Event> getUpcomingEvents(String username) {
-        ArrayList<HttpUriRequest> requests = getApiRequests(username);
+        return getUpcomingEvents(username, null);
+    }
+
+    @Override
+    public List<Event> getUpcomingEvents(String username, Locale locale) {
+        ArrayList<HttpUriRequest> requests = getApiRequests(username, locale);
 
         for (HttpUriRequest request : requests) {
             CloseableHttpResponse response = null;
@@ -152,9 +158,10 @@ public class MyTimetableServiceImpl implements MyTimetableService, Configuration
      * Creates a request for each MyTimetable API endpoint defined in the configuration.
      *
      * @param username Username the fetch the upcoming events for.
+     * @param locale Locale to get the response in
      * @return List of {@link HttpUriRequest} objects, which should be executed in order, until a result is acquired.
      */
-    private ArrayList<HttpUriRequest> getApiRequests(String username) {
+    private ArrayList<HttpUriRequest> getApiRequests(String username, Locale locale) {
         if (StringUtils.isBlank(username)) {
             log.error("Username cannot be empty.");
             throw new LocalizableException("Username cannot be empty.", "notLoggedIn");
@@ -205,6 +212,14 @@ public class MyTimetableServiceImpl implements MyTimetableService, Configuration
                 HttpGet request = new HttpGet(apiUri);
                 request.addHeader("apiToken", configuration.getApiKey());
                 request.addHeader("requestedAuth", username);
+
+                if (locale != null && !locale.getLanguage().isEmpty()) {
+                    if (!locale.getCountry().isEmpty()) {
+                        request.addHeader("Accept-Language", locale.getLanguage() + "-" + locale.getCountry());
+                    } else {
+                        request.addHeader("Accept-Language", locale.getLanguage());
+                    }
+                }
 
                 // Configure request timeouts.
                 RequestConfig requestConfig = RequestConfig.custom()

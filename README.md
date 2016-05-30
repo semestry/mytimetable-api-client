@@ -57,7 +57,7 @@ Visit our website, http://mytimetable.net, open a ticket (PR's welcome), or drop
 License
 -------
 
-    Copyright 2013 - 2014 Eveoh
+    Copyright 2013 - 2016 Eveoh
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
