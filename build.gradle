@@ -19,6 +19,10 @@ jar {
     }
 }
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+    from sourceSets.main.allSource
+}
+
 repositories {
     maven {
         url "https://maven.eveoh.nl/content/groups/public"
@@ -43,6 +47,10 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
+
+            artifact sourcesJar {
+                classifier = 'sources'
+            }
         }
     }
     repositories {
