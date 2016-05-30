@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 - 2014 Eveoh
+ * Copyright 2013 - 2016 Eveoh
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import nl.eveoh.mytimetable.apiclient.model.Event;
 
 import java.io.Closeable;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Interface for a service which communicates with the MyTimetable API.
@@ -33,6 +34,17 @@ public interface MyTimetableService extends Closeable {
      *
      * @return List of events for the user.
      */
-    public List<Event> getUpcomingEvents(String username);
+    List<Event> getUpcomingEvents(String username);
 
+    /**
+     * Returns the upcoming events for the given user in the given locale.
+     *
+     * When the specified locale is not available, the default locale will be used.
+     *
+     * @param username        username of the user to get the events of.
+     * @param locale          locale to get the response in.
+     *
+     * @return List of events for the user.
+     */
+    List<Event> getUpcomingEvents(String username, Locale locale);
 }
