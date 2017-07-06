@@ -24,7 +24,7 @@ public class TimetableFilterTypeListMapper extends StreamMapper<List<TimetableFi
             return mapper.reader()
                     .with(DeserializationFeature.UNWRAP_ROOT_VALUE)
                     .withRootName("filterattribute")
-                    .withType(mapper.getTypeFactory().constructCollectionType(List.class, TimetableFilterType.class))
+                    .forType(mapper.getTypeFactory().constructCollectionType(List.class, TimetableFilterType.class))
                     .readValue(stream);
         } catch (IOException e) {
             throw new StreamMappingException(e);

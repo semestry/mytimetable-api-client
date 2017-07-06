@@ -8,7 +8,7 @@ group = 'nl.eveoh.mytimetable'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-ext.jacksonVersion = '2.2.3'
+ext.jacksonVersion = '2.8.9'
 ext.guavaVersion = '16.0.1'
 
 jar {
