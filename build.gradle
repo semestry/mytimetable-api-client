@@ -28,7 +28,7 @@ repositories {
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.5'
 
-    compile 'org.apache.commons:commons-lang3:3.1'
+    compile 'org.apache.commons:commons-lang3:3.6'
     compile "com.google.guava:guava:${guavaVersion}"
 
     compile 'org.apache.httpcomponents:httpclient:4.3.1'
