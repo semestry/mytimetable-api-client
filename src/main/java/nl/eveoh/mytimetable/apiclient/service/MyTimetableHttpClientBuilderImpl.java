@@ -21,12 +21,16 @@ import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.DefaultHostnameVerifier;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.SSLContexts;
-import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.http.ssl.SSLContexts;
+
+import javax.net.ssl.HostnameVerifier;
+
 
 /**
  * Default {@link MyTimetableHttpClientBuilder} implementation.
@@ -51,11 +55,11 @@ public class MyTimetableHttpClientBuilderImpl implements MyTimetableHttpClientBu
     }
 
     private SSLConnectionSocketFactory createSslSocketFactory(Configuration configuration) {
-        X509HostnameVerifier verifier;
+        HostnameVerifier verifier;
         if (configuration.isApiSslCnCheck()) {
-            verifier = SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER;
+            verifier = new DefaultHostnameVerifier();
         } else {
-            verifier = SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+            verifier = NoopHostnameVerifier.INSTANCE;
         }
 
         return new SSLConnectionSocketFactory(SSLContexts.createSystemDefault(), verifier);
