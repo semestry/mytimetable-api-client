@@ -25,6 +25,7 @@ import org.apache.http.conn.ssl.DefaultHostnameVerifier;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.ssl.SSLContexts;
@@ -51,7 +52,13 @@ public class MyTimetableHttpClientBuilderImpl implements MyTimetableHttpClientBu
         connectionManager.setDefaultMaxPerRoute(configuration.getApiMaxConnections());
 
         // Create the HttpClient.
-        return HttpClients.custom().setConnectionManager(connectionManager).build();
+        HttpClientBuilder httpClientBuilder = HttpClients.custom().setConnectionManager(connectionManager);
+
+        if (!configuration.isApiEnableGzip()) {
+            httpClientBuilder.disableContentCompression();
+        }
+
+        return httpClientBuilder.build();
     }
 
     private SSLConnectionSocketFactory createSslSocketFactory(Configuration configuration) {

@@ -34,6 +34,7 @@ public class Configuration {
     private static final String API_CONNECT_TIMEOUT = "apiConnectTimeout";
     private static final String API_SOCKET_TIMEOUT = "apiSocketTimeout";
     private static final String API_MAX_CONNECTIONS = "apiMaxConnections";
+    private static final String API_ENABLE_GZIP = "apiEnableGzip";
 
     /**
      * Key used for communicating with the MyTimetable API.
@@ -75,6 +76,13 @@ public class Configuration {
      */
     private int apiMaxConnections = 20;
 
+    /**
+     * Enable Gzip compression
+     *
+     * Defaults to true
+     */
+    private boolean apiEnableGzip = true;
+
 
     public Configuration() {}
 
@@ -105,6 +113,8 @@ public class Configuration {
         try {
             apiMaxConnections = Integer.parseInt(properties.getProperty(API_MAX_CONNECTIONS));
         } catch (NumberFormatException e) { /* Do nothing, keep default value. */ }
+
+        apiEnableGzip = Boolean.parseBoolean(properties.getProperty(API_ENABLE_GZIP));
     }
 
     public String getApiKey() {
@@ -155,6 +165,14 @@ public class Configuration {
         this.apiMaxConnections = apiMaxConnections;
     }
 
+    public boolean isApiEnableGzip() {
+        return apiEnableGzip;
+    }
+
+    public void setApiEnableGzip(boolean apiEnableGzip) {
+        this.apiEnableGzip = apiEnableGzip;
+    }
+
     /**
      * Creates a {@link Properties} object containing the configuration values.
      *
@@ -177,6 +195,7 @@ public class Configuration {
         ret.setProperty(API_CONNECT_TIMEOUT, String.valueOf(apiConnectTimeout));
         ret.setProperty(API_SOCKET_TIMEOUT, String.valueOf(apiSocketTimeout));
         ret.setProperty(API_MAX_CONNECTIONS, String.valueOf(apiMaxConnections));
+        ret.setProperty(API_ENABLE_GZIP, String.valueOf(apiEnableGzip));
 
         if (apiKey != null) {
             ret.setProperty(API_KEY, apiKey);
