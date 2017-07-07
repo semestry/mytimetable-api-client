@@ -101,6 +101,8 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
     @Override
     public List<Event> getTimetableByKey(String key, Date startDate, Date endDate, int limit) {
+        assertParamNotNull(key, "key");
+
         HashMap<String, String> params = new HashMap<>();
 
         if (startDate != null) {
@@ -119,7 +121,10 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
     @Override
     public List<Event> getTimetableByHostKey(String key, String type, Date startDate, Date endDate, int limit) {
-        HashMap<String, String> params = new HashMap<String, String>();
+        assertParamNotNull(key, "key");
+        assertParamNotNull(type, "type");
+
+        HashMap<String, String> params = new HashMap<>();
         params.put("fetchBy", "hostKey");
         params.put("type", type);
 
@@ -138,17 +143,23 @@ public class MyTimetableServiceImpl implements MyTimetableService {
     }
 
     @Override
-    public List<Timetable> getTimetables(String type, String d, String q, Map<String, TimetableFilterOption> filters, int limit, int offset) {
+    public List<Timetable> getTimetables(String type, String d, String q, Map<String, TimetableFilterOption> filters,
+                                         int limit, int offset) {
         return getTimetables(new TimetableListMapper(mapper), type, d, q, filters, limit, offset);
     }
 
     @Override
-    public List<LocationTimetable> getLocationTimetables(String type, String d, String q, Map<String, TimetableFilterOption> filters, int limit, int offset) {
+    public List<LocationTimetable> getLocationTimetables(String type, String d, String q,
+                                                         Map<String, TimetableFilterOption> filters, int limit,
+                                                         int offset) {
         return getTimetables(new LocationTimetableListMapper(mapper), type, d, q, filters, limit, offset);
     }
 
-    private <T> T getTimetables(StreamMapper<T> streamMapper, String type, String d, String q, Map<String, TimetableFilterOption> filters, int limit, int offset) {
-        HashMap<String, String> params = new HashMap<String, String>();
+    private <T> T getTimetables(StreamMapper<T> streamMapper, String type, String d, String q,
+                                Map<String, TimetableFilterOption> filters, int limit, int offset) {
+        assertParamNotNull(type, "type");
+
+        HashMap<String, String> params = new HashMap<>();
 
         params.put("type", type);
 
@@ -175,8 +186,11 @@ public class MyTimetableServiceImpl implements MyTimetableService {
     }
 
     @Override
-    public List<TimetableFilterType> getTimetableFilters(String type, String d, Map<String, TimetableFilterOption> filters) {
-        HashMap<String, String> params = new HashMap<String, String>();
+    public List<TimetableFilterType> getTimetableFilters(String type, String d,
+                                                         Map<String, TimetableFilterOption> filters) {
+        assertParamNotNull(type, "type");
+
+        HashMap<String, String> params = new HashMap<>();
 
         params.put("type", type);
 
@@ -312,5 +326,11 @@ public class MyTimetableServiceImpl implements MyTimetableService {
         }
 
         return requests;
+    }
+
+    private void assertParamNotNull(Object param, String paramDescription) {
+        if (param == null) {
+            throw new IllegalArgumentException("'" + paramDescription + "' must not be null");
+        }
     }
 }
