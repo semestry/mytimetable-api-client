@@ -16,7 +16,8 @@
 
 package nl.eveoh.mytimetable.apiclient.configuration;
 
-import java.util.ArrayList;
+import com.google.common.collect.Lists;
+
 import java.util.List;
 
 /**
@@ -36,14 +37,14 @@ public class Configuration {
      * <p/>
      * Key should have elevated access.
      */
-    private String apiKey = "";
+    private String apiKey;
 
     /**
      * Endpoint URL of the MyTimetable API.
      * <p/>
      * Should be something like <tt>https://timetable.institution.ac.uk/api/v0/</tt>.
      */
-    private List<String> apiEndpointUris = new ArrayList<String>();
+    private List<String> apiEndpointUris;
 
     /**
      * Whether the SSL certificate CN should be verified when connecting to the MyTimetable API.
@@ -87,7 +88,13 @@ public class Configuration {
     private MyTimetable_Version myTimetableVersion = MyTimetable_Version.V3_1;
 
 
-    public Configuration() {
+    public Configuration(String apiKey, String apiEndpointUri) {
+        this(apiKey, Lists.newArrayList(apiEndpointUri));
+    }
+
+    public Configuration(String apiKey, List<String> apiEndpointUris) {
+        this.apiKey = apiKey;
+        this.apiEndpointUris = apiEndpointUris;
     }
 
     public String getApiKey() {
