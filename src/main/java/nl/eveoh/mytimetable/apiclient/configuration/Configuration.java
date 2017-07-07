@@ -27,6 +27,10 @@ import java.util.List;
  */
 public class Configuration {
 
+    public enum MyTimetable_Version {
+        V3_0, V3_1
+    }
+
     /**
      * Key used for communicating with the MyTimetable API.
      * <p/>
@@ -73,6 +77,14 @@ public class Configuration {
      * Defaults to true
      */
     private boolean apiEnableGzip = true;
+
+    /**
+     * Sets the MyTimetable version of the client.
+     * <p>
+     * Higher MyTimetable versions might return richer objects. Please refer to the model documentation for more
+     * information.
+     */
+    private MyTimetable_Version myTimetableVersion = MyTimetable_Version.V3_1;
 
 
     public Configuration() {
@@ -132,5 +144,13 @@ public class Configuration {
 
     public void setApiEnableGzip(boolean apiEnableGzip) {
         this.apiEnableGzip = apiEnableGzip;
+    }
+
+    public MyTimetable_Version getMyTimetableVersion() {
+        return myTimetableVersion;
+    }
+
+    public void setMyTimetableVersion(MyTimetable_Version myTimetableVersion) {
+        this.myTimetableVersion = myTimetableVersion;
     }
 }
