@@ -101,7 +101,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
     @Override
     public List<Event> getTimetableByKey(String key, Date startDate, Date endDate, int limit) {
-        HashMap<String, String> params = new HashMap<String, String>();
+        HashMap<String, String> params = new HashMap<>();
 
         if (startDate != null) {
             params.put("startDate", Long.toString(startDate.getTime()));
@@ -114,7 +114,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
         }
 
         String encodedKey = UrlEscapers.urlPathSegmentEscaper().escape(key);
-        return performRequest(new EventListStreamMapper(mapper), "timetable/" + encodedKey, params, null);
+        return performRequest(new EventListStreamMapper(mapper), "timetables/" + encodedKey, params, null);
     }
 
     @Override

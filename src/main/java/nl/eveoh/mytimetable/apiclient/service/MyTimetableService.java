@@ -40,14 +40,15 @@ public interface MyTimetableService extends Closeable {
     /**
      * Query the schedule for the specified timetable identifier.
      *
-     * @param key       The key corresponding with the specific timetable, as retrieved using the {@code getTimetables()} call.
+     * @param key       The key corresponding with the specific timetable, as retrieved using the {@code
+     *                  getTimetables()} call.
      * @param startDate The start date to retrieve events from, or none for the beginning of times.
      * @param endDate   The end date to retrieve events till, or none for the end of times.
      * @param limit     The maximum amount of records returned, 0 for no limit.
      *
-     * @return          List of {@link Event} objects.
+     * @return List of {@link Event} objects.
      */
-    public List<Event> getTimetableByKey(String key, Date startDate, Date endDate, int limit);
+    List<Event> getTimetableByKey(String key, Date startDate, Date endDate, int limit);
 
     /**
      * Query the schedule for the specified timetable identifier.
