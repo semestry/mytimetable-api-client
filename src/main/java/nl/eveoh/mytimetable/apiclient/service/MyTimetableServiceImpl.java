@@ -228,10 +228,14 @@ public class MyTimetableServiceImpl implements MyTimetableService {
     public List<DataSource> getDataSources() {
         if (this.configuration.getMyTimetableVersion() == Configuration.MyTimetable_Version.V3_0) {
             return performRequest(new DataSourceStreamMapper(mapper), "databases", null, null);
-        }
-        else {
+        } else {
             return performRequest(new DataSourceDetailsStreamMapper(mapper), "databasedetails", null, null);
         }
+    }
+
+    @Override
+    public List<TimetableType> getTimetableTypes() {
+        return performRequest(new TimetableTypeDetailsStreamMapper(mapper), "timetabletypesdetails", null, null);
     }
 
     @Override

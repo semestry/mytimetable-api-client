@@ -1,0 +1,146 @@
+package nl.eveoh.mytimetable.apiclient.model;
+
+import com.google.common.base.MoreObjects;
+import nl.eveoh.mytimetable.apiclient.configuration.Configuration;
+
+/**
+ * A Timetable Type
+ *
+ * @author Marco Krikke
+ */
+public class TimetableType {
+
+    /**
+     * Name of the timetable type
+     */
+    private String name;
+
+    /**
+     * Human readable description of the timetable type
+     */
+    private String description;
+
+    /**
+     * Weight determining the order the timetable types are displayed.
+     */
+    private int weight;
+
+    /**
+     * Parent timetable types can have child timetable types.
+     * <p>
+     * E.g. a building timetable can consist of multiple room child timetables.
+     */
+    private boolean parent;
+
+    /**
+     * True if any options can be selected on this timetable type.
+     */
+    private boolean optionSelectable;
+
+    /**
+     * True if options should be selectable from the user interface.
+     * <p>
+     * Returns {@null} for {@link Configuration.MyTimetable_Version} = {@link
+     * Configuration.MyTimetable_Version#V3_0}.
+     *
+     * @since MyTimetable 3.1
+     */
+    private Boolean optionSelectableInInterface;
+
+    /**
+     * True if any options can be selected on the child timetables of this timetable type.
+     */
+    private boolean childOptionSelectable;
+
+    /**
+     * True if child options should be selectable from the user interface.
+     * <p>
+     * Returns {@null} for {@link Configuration.MyTimetable_Version} = {@link
+     * Configuration.MyTimetable_Version#V3_0}.
+     *
+     * @since MyTimetable 3.1
+     */
+    private Boolean childOptionSelectableInInterface;
+
+
+    public TimetableType() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public boolean isParent() {
+        return parent;
+    }
+
+    public void setParent(boolean parent) {
+        this.parent = parent;
+    }
+
+    public boolean isOptionSelectable() {
+        return optionSelectable;
+    }
+
+    public void setOptionSelectable(boolean optionSelectable) {
+        this.optionSelectable = optionSelectable;
+    }
+
+    public Boolean getOptionSelectableInInterface() {
+        return optionSelectableInInterface;
+    }
+
+    public void setOptionSelectableInInterface(Boolean optionSelectableInInterface) {
+        this.optionSelectableInInterface = optionSelectableInInterface;
+    }
+
+    public boolean isChildOptionSelectable() {
+        return childOptionSelectable;
+    }
+
+    public void setChildOptionSelectable(boolean childOptionSelectable) {
+        this.childOptionSelectable = childOptionSelectable;
+    }
+
+    public Boolean getChildOptionSelectableInInterface() {
+        return childOptionSelectableInInterface;
+    }
+
+    public void setChildOptionSelectableInInterface(Boolean childOptionSelectableInInterface) {
+        this.childOptionSelectableInInterface = childOptionSelectableInInterface;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("name", name)
+                .add("description", description)
+                .add("weight", weight)
+                .add("parent", parent)
+                .add("optionSelectable", optionSelectable)
+                .add("optionSelectableInInterface", optionSelectableInInterface)
+                .add("childOptionSelectable", childOptionSelectable)
+                .add("childOptionSelectableInInterface", childOptionSelectableInInterface)
+                .toString();
+    }
+}

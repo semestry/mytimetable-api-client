@@ -203,4 +203,14 @@ public interface MyTimetableService extends Closeable {
      * @return List of {@link DataSource} objects.
      */
     List<DataSource> getDataSources();
+
+    /**
+     * Returns a list of available timetable types.
+     * <p>
+     * Some parameters in the returning list of {@link TimetableType}s might not be set, depending on the MyTimetable
+     * version. Please refer to the {@link TimetableType} documentation for more information.
+     *
+     * @return List of {@link TimetableType} objects.
+     */
+    List<TimetableType> getTimetableTypes();
 }
