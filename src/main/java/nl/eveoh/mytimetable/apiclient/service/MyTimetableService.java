@@ -32,14 +32,50 @@ import java.util.Map;
 public interface MyTimetableService extends Closeable {
 
     /**
-     * Returns the upcoming events for the given user.
+     * Returns a list of events for the given user.
+     *
+     * @param username                  username of the user to get the events of
+     * @param startDate                 The start date to retrieve events from, or {@code null} for the beginning of
+     *                                  times.
+     * @param endDate                   The end date to retrieve events till, or {@code null} for the end of times.
+     * @param limit                     The maximum amount of records returned, or 0 for no limit.
+     * @param types                     Specifies the type of the subscriptions to include when returning the timetable,
+     *                                  can be specified multiple times, useful to exclude zone and location
+     *                                  subscriptions when requesting the timetable. If {@code null} or empty list, all
+     *                                  subscriptions will be included in the result.
+     * @param excludeResourceTimetables Set this to true to exclude any resource (location, zone, equipment) timetables.
+     *                                  Generally you will want this for portal integrations etc. (added in MyTimetable
+     *                                  3.1)
+     *
+     * @return List of {@link Event}s for the user.
+     */
+    List<Event> getUserTimetable(String username, Date startDate, Date endDate, int limit, List<String> types,
+                                 boolean excludeResourceTimetables);
+
+    /**
+     * Returns the upcoming events for the given user. Also includes resource (location, zone, equipment) timetables
+     * by default.
      *
      * @param username username of the user to get the events of
      * @param limit    The maximum number of {@link Event}s to return
      *
-     * @return List of events for the user.
+     * @return List of {@link Event}s for the user.
+     * @deprecated Use {@link #getUpcomingEvents(String, int, boolean)}
      */
     List<Event> getUpcomingEvents(String username, int limit);
+
+    /**
+     * Returns the upcoming events for the given user.
+     *
+     * @param username                  username of the user to get the events of
+     * @param limit                     The maximum number of {@link Event}s to return
+     * @param excludeResourceTimetables Set this to true to exclude any resource (location, zone, equipment) timetables.
+     *                                  Generally you will want this for portal integrations etc. (added in MyTimetable
+     *                                  3.1)
+     *
+     * @return List of {@link Event}s for the user.
+     */
+    List<Event> getUpcomingEvents(String username, int limit, boolean excludeResourceTimetables);
 
     /**
      * Returns a list of events for the specified timetable identifier.
@@ -73,7 +109,7 @@ public interface MyTimetableService extends Closeable {
      * @param type    The type of the timetables, e.g. 'module'.
      * @param d       Datasource to search in. When using {@code null}, the highest priority datasource is used (usually
      *                the most current data source).
-     * @param q       Search string to filter results on.
+     * @param q       Search string to filter results on, or {@code null} when there is no need to filter.
      * @param filters Map containing multiple filters. The map key contains the filter name (e.g. 'department'), and the
      *                map value the selected filter value represented by a {@link TimetableFilterOption}. The filter
      *                value scan be retrieved via the {@link #getTimetableFilters(String, String, Map)} call. Or {@code
@@ -92,7 +128,7 @@ public interface MyTimetableService extends Closeable {
      * @param type    The type of the timetables, e.g. 'location'.
      * @param d       Datasource to search in. When using {@code null}, the highest priority datasource is used (usually
      *                the most current data source).
-     * @param q       Search string to filter results on.
+     * @param q       Search string to filter results on, or {@code null} when there is no need to filter.
      * @param filters Map containing multiple filters. The map key contains the filter name (e.g. 'zone'), and the map
      *                value the selected filter value represented by a {@link TimetableFilterOption}. The filter value
      *                scan be retrieved via the {@link #getTimetableFilters(String, String, Map)} call. Or {@code null}

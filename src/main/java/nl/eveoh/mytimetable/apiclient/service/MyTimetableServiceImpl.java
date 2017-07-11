@@ -18,13 +18,28 @@ package nl.eveoh.mytimetable.apiclient.service;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.google.common.net.UrlEscapers;
 import nl.eveoh.mytimetable.apiclient.configuration.Configuration;
 import nl.eveoh.mytimetable.apiclient.exception.HttpException;
 import nl.eveoh.mytimetable.apiclient.exception.InvalidConfigurationException;
 import nl.eveoh.mytimetable.apiclient.exception.NoUsableMyTimetableApiUrlException;
-import nl.eveoh.mytimetable.apiclient.model.*;
-import nl.eveoh.mytimetable.apiclient.service.mapper.*;
+import nl.eveoh.mytimetable.apiclient.model.DataSource;
+import nl.eveoh.mytimetable.apiclient.model.Event;
+import nl.eveoh.mytimetable.apiclient.model.LocationTimetable;
+import nl.eveoh.mytimetable.apiclient.model.Timetable;
+import nl.eveoh.mytimetable.apiclient.model.TimetableFilterOption;
+import nl.eveoh.mytimetable.apiclient.model.TimetableFilterType;
+import nl.eveoh.mytimetable.apiclient.model.TimetableType;
+import nl.eveoh.mytimetable.apiclient.service.mapper.DataSourceDetailsStreamMapper;
+import nl.eveoh.mytimetable.apiclient.service.mapper.DataSourceStreamMapper;
+import nl.eveoh.mytimetable.apiclient.service.mapper.EventListStreamMapper;
+import nl.eveoh.mytimetable.apiclient.service.mapper.LocationTimetableListMapper;
+import nl.eveoh.mytimetable.apiclient.service.mapper.StreamMapper;
+import nl.eveoh.mytimetable.apiclient.service.mapper.TimetableFilterTypeListMapper;
+import nl.eveoh.mytimetable.apiclient.service.mapper.TimetableListMapper;
+import nl.eveoh.mytimetable.apiclient.service.mapper.TimetableTypeDetailsStreamMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
@@ -41,7 +56,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation of the {@link MyTimetableService} interface.
@@ -100,10 +119,46 @@ public class MyTimetableServiceImpl implements MyTimetableService {
     }
 
     @Override
+    public List<Event> getUserTimetable(String username, Date startDate, Date endDate, int limit, List<String> types,
+                                        boolean excludeResourceTimetables) {
+        if (StringUtils.isBlank(username)) {
+            log.error("Username cannot be empty.");
+
+            throw new IllegalArgumentException("Username cannot be empty.");
+        }
+
+        Multimap<String, String> params = HashMultimap.create();
+
+        if (this.configuration.getMyTimetableVersion() == Configuration.MyTimetable_Version.V3_1) {
+            params.put("excludeResourceTimetables", Boolean.toString(excludeResourceTimetables));
+        }
+
+        if (startDate != null) {
+            params.put("startDate", Long.toString(startDate.getTime()));
+        }
+
+        if (endDate != null) {
+            params.put("endDate", Long.toString(endDate.getTime()));
+        }
+
+        if (limit > 0) {
+            params.put("limit", Integer.toString(limit));
+        }
+
+        if (types != null) {
+            for (String type : types) {
+                params.put("type", type);
+            }
+        }
+
+        return performRequest(new EventListStreamMapper(mapper), "timetable", params, username);
+    }
+
+    @Override
     public List<Event> getTimetableByKey(String key, Date startDate, Date endDate, int limit) {
         assertParamNotNull(key, "key");
 
-        HashMap<String, String> params = new HashMap<>();
+        Multimap<String, String> params = HashMultimap.create();
 
         if (startDate != null) {
             params.put("startDate", Long.toString(startDate.getTime()));
@@ -124,7 +179,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
         assertParamNotNull(key, "key");
         assertParamNotNull(type, "type");
 
-        HashMap<String, String> params = new HashMap<>();
+        Multimap<String, String> params = HashMultimap.create();
         params.put("fetchBy", "hostKey");
         params.put("type", type);
 
@@ -159,7 +214,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
                                 Map<String, TimetableFilterOption> filters, int limit, int offset) {
         assertParamNotNull(type, "type");
 
-        HashMap<String, String> params = new HashMap<>();
+        Multimap<String, String> params = HashMultimap.create();
 
         params.put("type", type);
 
@@ -190,7 +245,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
                                                          Map<String, TimetableFilterOption> filters) {
         assertParamNotNull(type, "type");
 
-        HashMap<String, String> params = new HashMap<>();
+        Multimap<String, String> params = HashMultimap.create();
 
         params.put("type", type);
 
@@ -209,19 +264,12 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
     @Override
     public List<Event> getUpcomingEvents(String username, int limit) {
-        if (StringUtils.isBlank(username)) {
-            log.error("Username cannot be empty.");
+        return getUpcomingEvents(username, limit, false);
+    }
 
-            throw new IllegalArgumentException("Username cannot be empty.");
-        }
-
-        HashMap<String, String> params = new HashMap<String, String>();
-
-        Date currentTime = new Date();
-        params.put("startDate", Long.toString(currentTime.getTime()));
-        params.put("limit", Integer.toString(limit));
-
-        return performRequest(new EventListStreamMapper(mapper), "timetable", params, username);
+    @Override
+    public List<Event> getUpcomingEvents(String username, int limit, boolean excludeResourceTimetables) {
+        return getUserTimetable(username, new Date(), null, limit, null, excludeResourceTimetables);
     }
 
     @Override
@@ -250,7 +298,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
         }
     }
 
-    private <T> T performRequest(StreamMapper<T> mapper, String path, Map<String, String> params, String requestedAuth) {
+    private <T> T performRequest(StreamMapper<T> mapper, String path, Multimap<String, String> params, String requestedAuth) {
         ArrayList<HttpUriRequest> requests = getApiRequests(path, params, requestedAuth);
 
         for (HttpUriRequest request : requests) {
@@ -297,7 +345,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
      * @param requestedAuth Username the fetch the upcoming events for.
      * @return List of {@link HttpUriRequest} objects, which should be executed in order, until a result is acquired.
      */
-    private ArrayList<HttpUriRequest> getApiRequests(String path, Map<String, String> params, String requestedAuth) {
+    private ArrayList<HttpUriRequest> getApiRequests(String path, Multimap<String, String> params, String requestedAuth) {
         ArrayList<HttpUriRequest> requests = new ArrayList<HttpUriRequest>();
 
         for (String uri : configuration.getApiEndpointUris()) {
@@ -311,8 +359,10 @@ public class MyTimetableServiceImpl implements MyTimetableService {
                 URIBuilder uriBuilder = new URIBuilder(baseUrl.toString());
 
                 if (params != null) {
-                    for (Map.Entry<String, String> param : params.entrySet()) {
-                        uriBuilder.addParameter(param.getKey(), param.getValue());
+                    for (Map.Entry<String, Collection<String>> param : params.asMap().entrySet()) {
+                        for (String v : param.getValue()) {
+                            uriBuilder.addParameter(param.getKey(), v);
+                        }
                     }
                 }
 
