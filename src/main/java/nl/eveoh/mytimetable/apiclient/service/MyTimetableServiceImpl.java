@@ -211,6 +211,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
     public List<Event> getUpcomingEvents(String username, int limit) {
         if (StringUtils.isBlank(username)) {
             log.error("Username cannot be empty.");
+
             throw new IllegalArgumentException("Username cannot be empty.");
         }
 
@@ -221,6 +222,16 @@ public class MyTimetableServiceImpl implements MyTimetableService {
         params.put("limit", Integer.toString(limit));
 
         return performRequest(new EventListStreamMapper(mapper), "timetable", params, username);
+    }
+
+    @Override
+    public List<DataSource> getDataSources() {
+        if (this.configuration.getMyTimetableVersion() == Configuration.MyTimetable_Version.V3_0) {
+            return performRequest(new DataSourceStreamMapper(mapper), "databases", null, null);
+        }
+        else {
+            return performRequest(new DataSourceDetailsStreamMapper(mapper), "databasedetails", null, null);
+        }
     }
 
     @Override
@@ -294,8 +305,11 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
             try {
                 URIBuilder uriBuilder = new URIBuilder(baseUrl.toString());
-                for (Map.Entry<String, String> param : params.entrySet()) {
-                    uriBuilder.addParameter(param.getKey(), param.getValue());
+
+                if (params != null) {
+                    for (Map.Entry<String, String> param : params.entrySet()) {
+                        uriBuilder.addParameter(param.getKey(), param.getValue());
+                    }
                 }
 
                 URI apiUri = uriBuilder.build();

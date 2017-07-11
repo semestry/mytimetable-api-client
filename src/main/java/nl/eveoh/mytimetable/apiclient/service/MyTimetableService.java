@@ -193,4 +193,14 @@ public interface MyTimetableService extends Closeable {
      * @return List of {@link TimetableFilterType} objects.
      */
     List<TimetableFilterType> getTimetableFilters(String type, String d, Map<String, TimetableFilterOption> filters);
+
+    /**
+     * Returns a list of all available data sources.
+     * <p>
+     * Some parameters in the returning list of {@link DataSource}s might not be set, depending on the MyTimetable
+     * version. Please refer to the {@link DataSource} documentation for more information.
+     *
+     * @return List of {@link DataSource} objects.
+     */
+    List<DataSource> getDataSources();
 }
