@@ -12,9 +12,9 @@ import java.util.List;
 /**
  * @author Marco Krikke
  */
-public class DataSourceDetailsStreamMapper extends StreamMapper<List<DataSource>> {
+public class DataSourceDetailsListStreamMapper extends StreamMapper<List<DataSource>> {
 
-    public DataSourceDetailsStreamMapper(ObjectMapper mapper) {
+    public DataSourceDetailsListStreamMapper(ObjectMapper mapper) {
         super(mapper);
     }
 

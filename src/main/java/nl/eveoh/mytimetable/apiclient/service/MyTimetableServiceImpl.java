@@ -32,14 +32,14 @@ import nl.eveoh.mytimetable.apiclient.model.Timetable;
 import nl.eveoh.mytimetable.apiclient.model.TimetableFilterOption;
 import nl.eveoh.mytimetable.apiclient.model.TimetableFilterType;
 import nl.eveoh.mytimetable.apiclient.model.TimetableType;
-import nl.eveoh.mytimetable.apiclient.service.mapper.DataSourceDetailsStreamMapper;
-import nl.eveoh.mytimetable.apiclient.service.mapper.DataSourceStreamMapper;
+import nl.eveoh.mytimetable.apiclient.service.mapper.DataSourceDetailsListStreamMapper;
+import nl.eveoh.mytimetable.apiclient.service.mapper.DataSourceListStreamMapper;
 import nl.eveoh.mytimetable.apiclient.service.mapper.EventListStreamMapper;
 import nl.eveoh.mytimetable.apiclient.service.mapper.LocationTimetableListMapper;
 import nl.eveoh.mytimetable.apiclient.service.mapper.StreamMapper;
 import nl.eveoh.mytimetable.apiclient.service.mapper.TimetableFilterTypeListMapper;
 import nl.eveoh.mytimetable.apiclient.service.mapper.TimetableListMapper;
-import nl.eveoh.mytimetable.apiclient.service.mapper.TimetableTypeDetailsStreamMapper;
+import nl.eveoh.mytimetable.apiclient.service.mapper.TimetableTypeDetailsListStreamMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
@@ -275,15 +275,15 @@ public class MyTimetableServiceImpl implements MyTimetableService {
     @Override
     public List<DataSource> getDataSources() {
         if (this.configuration.getMyTimetableVersion() == Configuration.MyTimetable_Version.V3_0) {
-            return performRequest(new DataSourceStreamMapper(mapper), "v0/databases", null, null);
+            return performRequest(new DataSourceListStreamMapper(mapper), "v0/databases", null, null);
         } else {
-            return performRequest(new DataSourceDetailsStreamMapper(mapper), "v0/databasedetails", null, null);
+            return performRequest(new DataSourceDetailsListStreamMapper(mapper), "v0/databasedetails", null, null);
         }
     }
 
     @Override
     public List<TimetableType> getTimetableTypes() {
-        return performRequest(new TimetableTypeDetailsStreamMapper(mapper), "v0/timetabletypesdetails", null, null);
+        return performRequest(new TimetableTypeDetailsListStreamMapper(mapper), "v0/timetabletypesdetails", null, null);
     }
 
     @Override
