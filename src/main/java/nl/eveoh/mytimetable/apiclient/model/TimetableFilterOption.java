@@ -1,15 +1,32 @@
 package nl.eveoh.mytimetable.apiclient.model;
 
+import com.google.common.base.MoreObjects;
+
 /**
+ * Filter option
+ *
  * @author Erik van Paassen
  */
 public class TimetableFilterOption {
+
+    /**
+     * The human readable name of the filter option
+     */
     private String name;
+
+    /**
+     * The value that uniquely identifies the filter option
+     */
     private String value;
+
+    /**
+     * The host key of the filter option
+     */
     private String hostKey;
 
 
-    public TimetableFilterOption() {}
+    public TimetableFilterOption() {
+    }
 
     public TimetableFilterOption(String name, String value) {
         this.name = name;
@@ -48,12 +65,18 @@ public class TimetableFilterOption {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         TimetableFilterOption that = (TimetableFilterOption) o;
 
-        if (value != null ? !value.equals(that.value) : that.value != null) return false;
+        if (value != null ? !value.equals(that.value) : that.value != null) {
+            return false;
+        }
 
         return true;
     }
@@ -61,5 +84,14 @@ public class TimetableFilterOption {
     @Override
     public int hashCode() {
         return value != null ? value.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("name", name)
+                .add("value", value)
+                .add("hostKey", hostKey)
+                .toString();
     }
 }
