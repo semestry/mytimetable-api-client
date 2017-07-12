@@ -30,5 +30,5 @@ public interface MyTimetableHttpClientBuilder {
      * @param configuration {@link Configuration} object containing the configuration data to configure the HttpClient with.
      * @return Thread-safe HttpClient.
      */
-    public CloseableHttpClient build(Configuration configuration);
+    CloseableHttpClient build(Configuration configuration);
 }

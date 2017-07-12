@@ -151,7 +151,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
             }
         }
 
-        return performRequest(new EventListStreamMapper(mapper), "timetable", params, username);
+        return performRequest(new EventListStreamMapper(mapper), "v0.5/timetable", params, username);
     }
 
     @Override
@@ -171,7 +171,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
         }
 
         String encodedKey = UrlEscapers.urlPathSegmentEscaper().escape(key);
-        return performRequest(new EventListStreamMapper(mapper), "timetables/" + encodedKey, params, null);
+        return performRequest(new EventListStreamMapper(mapper), "v0.5/timetables/" + encodedKey, params, null);
     }
 
     @Override
@@ -194,7 +194,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
         }
 
         String encodedKey = UrlEscapers.urlPathSegmentEscaper().escape(key);
-        return performRequest(new EventListStreamMapper(mapper), "timetables/" + encodedKey, params, null);
+        return performRequest(new EventListStreamMapper(mapper), "v0.5/timetables/" + encodedKey, params, null);
     }
 
     @Override
@@ -237,7 +237,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
             }
         }
 
-        return performRequest(streamMapper, "timetables", params, null);
+        return performRequest(streamMapper, "v0/timetables", params, null);
     }
 
     @Override
@@ -259,7 +259,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
             }
         }
 
-        return performRequest(new TimetableFilterTypeListMapper(mapper), "timetablefilters", params, null);
+        return performRequest(new TimetableFilterTypeListMapper(mapper), "v0/timetablefilters", params, null);
     }
 
     @Override
@@ -275,15 +275,15 @@ public class MyTimetableServiceImpl implements MyTimetableService {
     @Override
     public List<DataSource> getDataSources() {
         if (this.configuration.getMyTimetableVersion() == Configuration.MyTimetable_Version.V3_0) {
-            return performRequest(new DataSourceStreamMapper(mapper), "databases", null, null);
+            return performRequest(new DataSourceStreamMapper(mapper), "v0/databases", null, null);
         } else {
-            return performRequest(new DataSourceDetailsStreamMapper(mapper), "databasedetails", null, null);
+            return performRequest(new DataSourceDetailsStreamMapper(mapper), "v0/databasedetails", null, null);
         }
     }
 
     @Override
     public List<TimetableType> getTimetableTypes() {
-        return performRequest(new TimetableTypeDetailsStreamMapper(mapper), "timetabletypesdetails", null, null);
+        return performRequest(new TimetableTypeDetailsStreamMapper(mapper), "v0/timetabletypesdetails", null, null);
     }
 
     @Override

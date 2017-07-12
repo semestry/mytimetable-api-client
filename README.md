@@ -4,6 +4,16 @@ MyTimetable API Client
 This project provides a very basic MyTimetable API client, which fetches the upcoming events for a specific user.
 It is used by the MyTimetable building block for Blackboard Learn and the MyTimetable tool for Sakai.
 
+Supported MyTimetable versions
+------------------------------
+
+MyTimetable v3.0 and later are supported.
+
+Supported MyTimetable APIs
+--------------------------
+
+MyTimetable API v0 and v0.5 are both supported. The API client calls the API version that returns the richest response.
+
 Usage
 -----
 
@@ -12,7 +22,7 @@ good enough for general use. You need a MyTimetable 'elevated' API token and the
 
 ```java
 Configuration config = new Configuration();
-config.getApiEndpointUris().add("https://demo.eveoh.nl/api/v0/");
+config.getApiEndpointUris().add("https://demo.eveoh.nl/api/");
 config.setApiKey("MY-API-KEY");
 
 // Create the MyTimetable service class

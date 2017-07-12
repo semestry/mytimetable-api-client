@@ -42,7 +42,7 @@ public class Configuration {
     /**
      * Endpoint URL of the MyTimetable API.
      * <p/>
-     * Should be something like <tt>https://timetable.institution.ac.uk/api/v0/</tt>.
+     * Should be something like <tt>https://timetable.institution.ac.uk/api/</tt>.
      */
     private List<String> apiEndpointUris;
 
