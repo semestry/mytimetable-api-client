@@ -16,6 +16,8 @@
 
 package nl.eveoh.mytimetable.apiclient.model;
 
+import com.google.common.base.MoreObjects;
+
 import java.util.ArrayList;
 
 /**
@@ -26,40 +28,47 @@ import java.util.ArrayList;
  */
 public class Location {
 
-    private ArrayList<String> avoidConcurrencyLocationIds;
-    private String capacity;
+    /**
+     * The unique identifier of the location
+     */
     private String id;
-    private String key;
 
     /**
-     * Name of the location.
+     * The human readable name of the location
      */
     private String name;
 
+    /**
+     * The external identifier of the location
+     */
+    private String key;
+
+    /**
+     * The capacity of the location
+     */
+    private int capacity;
+
+    /**
+     * The capacity of the location when used for exams. Can be {@code null}.
+     */
+    private Integer examCapacity;
+
+    /**
+     * The URL of the location
+     */
     private String url;
 
+    /**
+     * A list of unique identifiers of locations that are 'avoid concurrent' with this location
+     */
+    private ArrayList<String> avoidConcurrencyLocationIds;
 
 
-    public Location() {}
+    public Location() {
+    }
 
     public Location(String name) {
         this.name = name;
-    }
-
-    public ArrayList<String> getAvoidConcurrencyLocationIds() {
-        return avoidConcurrencyLocationIds;
-    }
-
-    public void setAvoidConcurrencyLocationIds(ArrayList<String> avoidConcurrencyLocationIds) {
-        this.avoidConcurrencyLocationIds = avoidConcurrencyLocationIds;
-    }
-
-    public String getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(String capacity) {
-        this.capacity = capacity;
     }
 
     public String getId() {
@@ -70,12 +79,36 @@ public class Location {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getKey() {
         return key;
     }
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public Integer getExamCapacity() {
+        return examCapacity;
+    }
+
+    public void setExamCapacity(Integer examCapacity) {
+        this.examCapacity = examCapacity;
     }
 
     public String getUrl() {
@@ -86,11 +119,24 @@ public class Location {
         this.url = url;
     }
 
-    public String getName() {
-        return name;
+    public ArrayList<String> getAvoidConcurrencyLocationIds() {
+        return avoidConcurrencyLocationIds;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAvoidConcurrencyLocationIds(ArrayList<String> avoidConcurrencyLocationIds) {
+        this.avoidConcurrencyLocationIds = avoidConcurrencyLocationIds;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("name", name)
+                .add("key", key)
+                .add("capacity", capacity)
+                .add("examCapacity", examCapacity)
+                .add("url", url)
+                .add("avoidConcurrencyLocationIds", avoidConcurrencyLocationIds)
+                .toString();
     }
 }
