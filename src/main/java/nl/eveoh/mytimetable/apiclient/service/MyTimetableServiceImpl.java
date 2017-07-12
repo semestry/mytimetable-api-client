@@ -298,7 +298,8 @@ public class MyTimetableServiceImpl implements MyTimetableService {
         }
     }
 
-    private <T> T performRequest(StreamMapper<T> mapper, String path, Multimap<String, String> params, String requestedAuth) {
+    private <T> T performRequest(StreamMapper<T> mapper, String path, Multimap<String, String> params,
+                                 String requestedAuth) {
         ArrayList<HttpUriRequest> requests = getApiRequests(path, params, requestedAuth);
 
         for (HttpUriRequest request : requests) {
@@ -342,11 +343,15 @@ public class MyTimetableServiceImpl implements MyTimetableService {
     /**
      * Creates a request for each MyTimetable API endpoint defined in the configuration.
      *
-     * @param requestedAuth Username the fetch the upcoming events for.
+     * @param path          endpoint to call, will be automatically prefixed with the API base URL
+     * @param params        {@link Multimap} containing all query parameters
+     * @param requestedAuth username of the user to impersonate, or {@code null} if no impersonation is required
+     *
      * @return List of {@link HttpUriRequest} objects, which should be executed in order, until a result is acquired.
      */
-    private ArrayList<HttpUriRequest> getApiRequests(String path, Multimap<String, String> params, String requestedAuth) {
-        ArrayList<HttpUriRequest> requests = new ArrayList<HttpUriRequest>();
+    private ArrayList<HttpUriRequest> getApiRequests(String path, Multimap<String, String> params,
+                                                     String requestedAuth) {
+        ArrayList<HttpUriRequest> requests = new ArrayList<>();
 
         for (String uri : configuration.getApiEndpointUris()) {
             StringBuilder baseUrl = new StringBuilder(uri);
