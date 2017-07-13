@@ -59,8 +59,8 @@ public class EventListStreamMapperTest extends BaseStreamMapperTest<EventListStr
         Assert.assertEquals(0, events.get(0).getLocations().get(1).getAvoidConcurrencyLocationIds().size());
 
         Assert.assertEquals(2, events.get(0).getStudentSets().size());
-        Assert.assertEquals("GROUP-A1", events.get(0).getStudentSets().get(0));
-        Assert.assertEquals("GROUP-B2", events.get(0).getStudentSets().get(1));
+        Assert.assertEquals("GROUP-A1", events.get(0).getStudentSets().get(0).getKey());
+        Assert.assertEquals("GROUP-B2", events.get(0).getStudentSets().get(1).getKey());
 
         Assert.assertEquals(0, events.get(0).getTags().size());
 

@@ -81,7 +81,7 @@ public class Event {
     /**
      * List of student sets for this activity.
      */
-    private List<String> studentSets;
+    private List<StudentSet> studentSets;
 
     /**
      * List of tags for this activity.
@@ -199,11 +199,11 @@ public class Event {
         this.locations = locations;
     }
 
-    public List<String> getStudentSets() {
+    public List<StudentSet> getStudentSets() {
         return studentSets;
     }
 
-    public void setStudentSets(List<String> studentSets) {
+    public void setStudentSets(List<StudentSet> studentSets) {
         this.studentSets = studentSets;
     }
 
