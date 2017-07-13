@@ -1,0 +1,24 @@
+{
+  "timetableTypes": [
+    {
+      "childOptionSelectable": false,
+      "childOptionSelectableInInterface": false,
+      "description": "Course",
+      "name": "module",
+      "optionSelectable": false,
+      "optionSelectableInInterface": false,
+      "parent": false,
+      "weight": 1
+    },
+    {
+      "childOptionSelectable": true,
+      "childOptionSelectableInInterface": true,
+      "description": "Programme of study",
+      "name": "pos",
+      "optionSelectable": true,
+      "optionSelectableInInterface": true,
+      "parent": true,
+      "weight": 2
+    }
+  ]
+}

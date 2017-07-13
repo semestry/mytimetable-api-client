@@ -1,0 +1,16 @@
+{
+  "timetable": [
+    {
+      "description": "N-A01 (200)",
+      "hostKey": "N-A01",
+      "locationCapacity": 200,
+      "value": "2017!location!5CD96299730A0DF26206320F08354B7C"
+    },
+    {
+      "description": "N-A02 (175)",
+      "hostKey": "N-A02",
+      "locationCapacity": 175,
+      "value": "2017!location!62F1A7C5D0008267EEDD2BE7454F7A8E"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "timetable": [
+    {
+      "description": "Automotive Engineering",
+      "hostKey": "AE",
+      "value": "2017!module!49CBD432F01E8C5057B344E02604A76F"
+    },
+    {
+      "description": "BioRobotics",
+      "hostKey": "BR",
+      "value": "2017!module!49CBD432F01E8C5057B344E02604A770"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "filterattribute": [
+    {
+      "type": "posdepartment",
+      "option": [
+        {
+          "name": "Department of Engineering",
+          "value": "0F5E7058EC134851B6EF5356A1864B04",
+          "hostKey": "DE"
+        },
+        {
+          "name": "Department of Law, Economics, and Governance",
+          "value": "646ADCA666D4A88402CA46C26A738046",
+          "hostKey": "DLEG"
+        }
+      ]
+    },
+    {
+      "type": "pos",
+      "option": [
+        {
+          "name": "Astrophysics",
+          "value": "0F2C927DF37F3A2BEF1F1713768E4EDE",
+          "hostKey": "ASTR"
+        }
+      ]
+    }
+  ]
+}

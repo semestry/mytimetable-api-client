@@ -1,0 +1,122 @@
+[
+  {
+    "id": "2017!066090D30ADAF22CC2B90B6EEA969D14-20170712",
+    "startDate": 1499867100000,
+    "endDate": 1499873400000,
+    "moduleCode": null,
+    "activityDescription": "Complex Functions",
+    "staffMembers": [
+      {
+        "name": "Mr. Harris (Har)",
+        "key": "HAR"
+      },
+      {
+        "name": "Ms. Walker (Wal)",
+        "key": "WAL"
+      }
+    ],
+    "locations": [
+      {
+        "id": "2017!62F1A7C5D0008267EEDD2BE7454F7A8E",
+        "name": "N-A02",
+        "key": "N-A02",
+        "capacity": 175,
+        "examCapacity": null,
+        "url": null,
+        "sipAddress": null,
+        "avoidConcurrencyLocationIds": [],
+        "customAttributes": {}
+      },
+      {
+        "id": "2017!98EAE9AF089FE3C93536F64A1142FC0B",
+        "name": "N-B12",
+        "key": "N-B12",
+        "capacity": 150,
+        "examCapacity": null,
+        "url": null,
+        "sipAddress": "sip:N-B12@eveoh.nl",
+        "avoidConcurrencyLocationIds": [],
+        "customAttributes": {}
+      }
+    ],
+    "studentSets": [
+      "GROUP-A1",
+      "GROUP-B2"
+    ],
+    "activityTypeName": "LECTURE",
+    "activityTypeDescription": "Lecture",
+    "activityTypeColor": "#2c3e50",
+    "notes": "This is note 1",
+    "notes2": null,
+    "notes3": "This is note 3",
+    "highlighted": false,
+    "timetableKeys": [
+      "2017!zone!8A75A241E9004CF0A4392576C4E09757"
+    ],
+    "tags": [],
+    "conferenceUrl": null,
+    "department": {
+      "id": "2017!646ADCA666D4A88402CA46C26A73803C",
+      "name": "Department of Science"
+    },
+    "filtered": false
+  },
+  {
+    "id": "2017!066090D30ADAF22C C2B90B6EEA969D38-20170712",
+    "startDate": 1499867100000,
+    "endDate": 1499873400000,
+    "moduleCode": "TP",
+    "activityDescription": "Transport & Planning",
+    "staffMembers": [
+      {
+        "name": "Ms. Walker (Wal)",
+        "key": "WAL"
+      }
+    ],
+    "locations": [
+      {
+        "id": "2017!C1256059D21BFEB108F872F4D6F936F4",
+        "name": "N-F31",
+        "key": "N-F31",
+        "capacity": 150,
+        "examCapacity": 60,
+        "url": "http://test.com",
+        "sipAddress": null,
+        "avoidConcurrencyLocationIds": [
+          "2017!C1256059D21BFEB108F872F4D6F936FF",
+          "2017!C1256059D21BFEB108F872F4D6F936FE"
+        ],
+        "customAttributes": {
+          "foo": "bar"
+        }
+      }
+    ],
+    "studentSets": [],
+    "activityTypeName": null,
+    "activityTypeDescription": null,
+    "activityTypeColor": null,
+    "notes": null,
+    "notes2": "This is note 2",
+    "notes3": null,
+    "highlighted": true,
+    "timetableKeys": [
+      "2017!zone!8A75A241E9004CF0A4392576C4E09757"
+    ],
+    "tags": [
+      {
+        "name": "Tag A",
+        "key": "TagA"
+      },
+      {
+        "name": "Tag B",
+        "key": "TagB"
+      }
+    ],
+    "conferenceUrl": "https://demo.eveoh.nl/conference/12345",
+    "department": {
+      "id": "2017!0F5E7058EC134851B6EF5356A1864B04",
+      "name": "Department of Engineering"
+    },
+    "filtered": true
+  }
+]
