@@ -233,7 +233,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
         if (filters != null) {
             for (Map.Entry<String, TimetableFilterOption> filter : filters.entrySet()) {
-                params.put(filter.getKey() + "Filter", filter.getValue().getValue());
+                params.put(filter.getKey() + "Filter", filter.getValue().getId());
             }
         }
 
@@ -255,7 +255,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
         if (filters != null) {
             for (Map.Entry<String, TimetableFilterOption> filter : filters.entrySet()) {
-                params.put(filter.getKey() + "Filter", filter.getValue().getValue());
+                params.put(filter.getKey() + "Filter", filter.getValue().getId());
             }
         }
 

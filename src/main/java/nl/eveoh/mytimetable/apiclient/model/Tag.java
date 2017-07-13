@@ -16,40 +16,35 @@
 
 package nl.eveoh.mytimetable.apiclient.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 
 /**
- * Tag for an event.
+ * Tag for an event
  *
  * @author Marco Krikke
  */
 public class Tag {
 
     /**
-     * The human readable name of the tag
-     */
-    private String name;
-
-    /**
-     * The identifier of the tag
+     * External identifier of the tag
      */
     private String key;
+
+    /**
+     * Description of the tag
+     */
+    @JsonProperty("name")
+    private String description;
 
 
     public Tag() {
     }
 
-    public Tag(String name) {
-        this.name = name;
+    public Tag(String description) {
+        this.description = description;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getKey() {
         return key;
@@ -59,8 +54,16 @@ public class Tag {
         this.key = key;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).add("name", name).add("key", key).toString();
+        return MoreObjects.toStringHelper(this).add("key", key).add("description", description).toString();
     }
 }

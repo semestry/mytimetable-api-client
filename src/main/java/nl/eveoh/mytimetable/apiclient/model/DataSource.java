@@ -16,11 +16,12 @@
 
 package nl.eveoh.mytimetable.apiclient.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 import nl.eveoh.mytimetable.apiclient.configuration.Configuration;
 
 /**
- * MyTimetable data source.
+ * MyTimetable data source
  *
  * @author Marco Krikke
  */
@@ -29,49 +30,51 @@ public class DataSource {
     /**
      * Unique identifier of the data source
      */
-    private String key;
+    @JsonProperty("key")
+    private String id;
 
     /**
-     * Label of the data source.
+     * Description of the data source
      * <p>
      * This value is only set for {@link Configuration.MyTimetable_Version} >= {@link
      * Configuration.MyTimetable_Version#V3_1}.
      *
      * @since MyTimetable 3.1
      */
-    private String label;
+    @JsonProperty("label")
+    private String description;
 
 
     public DataSource() {
     }
 
-    public DataSource(String key) {
-        this.key = key;
+    public DataSource(String id) {
+        this.id = id;
     }
 
-    public DataSource(String key, String label) {
-        this.key = key;
-        this.label = label;
+    public DataSource(String id, String description) {
+        this.id = id;
+        this.description = description;
     }
 
-    public String getKey() {
-        return key;
+    public String getId() {
+        return id;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getLabel() {
-        return label;
+    public String getDescription() {
+        return description;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).add("key", key).add("label", label).toString();
+        return MoreObjects.toStringHelper(this).add("id", id).add("description", description).toString();
     }
 }

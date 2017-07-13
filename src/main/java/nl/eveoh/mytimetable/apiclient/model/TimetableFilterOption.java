@@ -1,66 +1,70 @@
 package nl.eveoh.mytimetable.apiclient.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 
 /**
- * Filter option
+ * Filter option for a {@link TimetableFilterType}
  *
  * @author Erik van Paassen
  */
 public class TimetableFilterOption {
 
     /**
-     * The human readable name of the filter option
+     * Unique identifier of the filter option
      */
-    private String name;
+    @JsonProperty("value")
+    private String id;
 
     /**
-     * The value that uniquely identifies the filter option
+     * External identifier of the filter option
      */
-    private String value;
+    @JsonProperty("hostKey")
+    private String key;
 
     /**
-     * The host key of the filter option
+     * Description of the filter option
      */
-    private String hostKey;
+    @JsonProperty("name")
+    private String description;
 
 
     public TimetableFilterOption() {
     }
 
-    public TimetableFilterOption(String name, String value) {
-        this.name = name;
-        this.value = value;
+    public TimetableFilterOption(String id, String description) {
+        this.id = id;
+        this.description = description;
     }
 
-    public TimetableFilterOption(String name, String value, String hostKey) {
-        this.name = name;
-        this.value = value;
-        this.hostKey = hostKey;
+    public TimetableFilterOption(String id, String key, String description) {
+        this.id = id;
+        this.key = key;
+        this.description = description;
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getValue() {
-        return value;
+    public String getKey() {
+        return key;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setKey(String key) {
+        this.key = key;
     }
 
-    public String getHostKey() {
-        return hostKey;
+    public String getDescription() {
+        return description;
     }
 
-    public void setHostKey(String hostKey) {
-        this.hostKey = hostKey;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
@@ -74,7 +78,7 @@ public class TimetableFilterOption {
 
         TimetableFilterOption that = (TimetableFilterOption) o;
 
-        if (value != null ? !value.equals(that.value) : that.value != null) {
+        if (id != null ? !id.equals(that.id) : that.id != null) {
             return false;
         }
 
@@ -83,15 +87,15 @@ public class TimetableFilterOption {
 
     @Override
     public int hashCode() {
-        return value != null ? value.hashCode() : 0;
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("name", name)
-                .add("value", value)
-                .add("hostKey", hostKey)
+                .add("id", id)
+                .add("key", key)
+                .add("description", description)
                 .toString();
     }
 }

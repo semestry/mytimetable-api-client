@@ -21,16 +21,16 @@ public class LocationTimetableListStreamMapperTest extends BaseStreamMapperTest<
         Assert.assertEquals(2, timetables.size());
 
         Assert.assertEquals("N-A01 (200)", timetables.get(0).getDescription());
-        Assert.assertEquals("N-A01", timetables.get(0).getHostKey());
-        Assert.assertEquals("2017!location!5CD96299730A0DF26206320F08354B7C", timetables.get(0).getKey());
-        Assert.assertEquals(200, timetables.get(0).getLocationCapacity());
-        Assert.assertNull(timetables.get(0).getLocationUrl());
+        Assert.assertEquals("N-A01", timetables.get(0).getKey());
+        Assert.assertEquals("2017!location!5CD96299730A0DF26206320F08354B7C", timetables.get(0).getId());
+        Assert.assertEquals(200, timetables.get(0).getCapacity());
+        Assert.assertNull(timetables.get(0).getUrl());
 
         Assert.assertEquals("N-A02 (175)", timetables.get(1).getDescription());
-        Assert.assertEquals("N-A02", timetables.get(1).getHostKey());
-        Assert.assertEquals("2017!location!62F1A7C5D0008267EEDD2BE7454F7A8E", timetables.get(1).getKey());
-        Assert.assertEquals(175, timetables.get(1).getLocationCapacity());
-        Assert.assertNull(timetables.get(1).getLocationUrl());
+        Assert.assertEquals("N-A02", timetables.get(1).getKey());
+        Assert.assertEquals("2017!location!62F1A7C5D0008267EEDD2BE7454F7A8E", timetables.get(1).getId());
+        Assert.assertEquals(175, timetables.get(1).getCapacity());
+        Assert.assertNull(timetables.get(1).getUrl());
     }
 
     @Test
@@ -41,15 +41,15 @@ public class LocationTimetableListStreamMapperTest extends BaseStreamMapperTest<
         Assert.assertEquals(2, timetables.size());
 
         Assert.assertEquals("N-A01 (200)", timetables.get(0).getDescription());
-        Assert.assertEquals("N-A01", timetables.get(0).getHostKey());
-        Assert.assertEquals("2017!location!5CD96299730A0DF26206320F08354B7C", timetables.get(0).getKey());
-        Assert.assertEquals(200, timetables.get(0).getLocationCapacity());
-        Assert.assertEquals("http://test.com", timetables.get(0).getLocationUrl());
+        Assert.assertEquals("N-A01", timetables.get(0).getKey());
+        Assert.assertEquals("2017!location!5CD96299730A0DF26206320F08354B7C", timetables.get(0).getId());
+        Assert.assertEquals(200, timetables.get(0).getCapacity());
+        Assert.assertEquals("http://test.com", timetables.get(0).getUrl());
 
         Assert.assertEquals("N-A02 (175)", timetables.get(1).getDescription());
-        Assert.assertEquals("N-A02", timetables.get(1).getHostKey());
-        Assert.assertEquals("2017!location!62F1A7C5D0008267EEDD2BE7454F7A8E", timetables.get(1).getKey());
-        Assert.assertEquals(175, timetables.get(1).getLocationCapacity());
-        Assert.assertNull(timetables.get(1).getLocationUrl());
+        Assert.assertEquals("N-A02", timetables.get(1).getKey());
+        Assert.assertEquals("2017!location!62F1A7C5D0008267EEDD2BE7454F7A8E", timetables.get(1).getId());
+        Assert.assertEquals(175, timetables.get(1).getCapacity());
+        Assert.assertNull(timetables.get(1).getUrl());
     }
 }

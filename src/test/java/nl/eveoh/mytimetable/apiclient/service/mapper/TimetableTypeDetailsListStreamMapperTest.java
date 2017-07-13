@@ -23,7 +23,7 @@ public class TimetableTypeDetailsListStreamMapperTest
 
         Assert.assertFalse(timetableTypes.get(0).isChildOptionSelectable());
         Assert.assertEquals("Course", timetableTypes.get(0).getDescription());
-        Assert.assertEquals("module", timetableTypes.get(0).getName());
+        Assert.assertEquals("module", timetableTypes.get(0).getId());
         Assert.assertFalse(timetableTypes.get(0).isOptionSelectable());
         Assert.assertFalse(timetableTypes.get(0).isParent());
         Assert.assertEquals(1, timetableTypes.get(0).getWeight());
@@ -32,7 +32,7 @@ public class TimetableTypeDetailsListStreamMapperTest
 
         Assert.assertTrue(timetableTypes.get(1).isChildOptionSelectable());
         Assert.assertEquals("Programme of study", timetableTypes.get(1).getDescription());
-        Assert.assertEquals("pos", timetableTypes.get(1).getName());
+        Assert.assertEquals("pos", timetableTypes.get(1).getId());
         Assert.assertTrue(timetableTypes.get(1).isOptionSelectable());
         Assert.assertTrue(timetableTypes.get(1).isParent());
         Assert.assertEquals(2, timetableTypes.get(1).getWeight());
@@ -49,7 +49,7 @@ public class TimetableTypeDetailsListStreamMapperTest
 
         Assert.assertFalse(timetableTypes.get(0).isChildOptionSelectable());
         Assert.assertEquals("Course", timetableTypes.get(0).getDescription());
-        Assert.assertEquals("module", timetableTypes.get(0).getName());
+        Assert.assertEquals("module", timetableTypes.get(0).getId());
         Assert.assertFalse(timetableTypes.get(0).isOptionSelectable());
         Assert.assertFalse(timetableTypes.get(0).isParent());
         Assert.assertEquals(1, timetableTypes.get(0).getWeight());
@@ -58,7 +58,7 @@ public class TimetableTypeDetailsListStreamMapperTest
 
         Assert.assertTrue(timetableTypes.get(1).isChildOptionSelectable());
         Assert.assertEquals("Programme of study", timetableTypes.get(1).getDescription());
-        Assert.assertEquals("pos", timetableTypes.get(1).getName());
+        Assert.assertEquals("pos", timetableTypes.get(1).getId());
         Assert.assertTrue(timetableTypes.get(1).isOptionSelectable());
         Assert.assertTrue(timetableTypes.get(1).isParent());
         Assert.assertEquals(2, timetableTypes.get(1).getWeight());

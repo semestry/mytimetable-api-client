@@ -19,11 +19,11 @@ public class DataSourceDetailsListStreamMapperTest extends BaseStreamMapperTest<
                 "nl/eveoh/mytimetable/apiclient/service/mapper/MyTimetable_3_1/datasourcedetailslist.json"));
 
         Assert.assertEquals(3, dataSources.size());
-        Assert.assertEquals("2017", dataSources.get(0).getKey());
-        Assert.assertEquals("2017", dataSources.get(0).getLabel());
-        Assert.assertEquals("2016", dataSources.get(1).getKey());
-        Assert.assertEquals("2016", dataSources.get(1).getLabel());
-        Assert.assertEquals("2015", dataSources.get(2).getKey());
-        Assert.assertEquals("2015", dataSources.get(2).getLabel());
+        Assert.assertEquals("2017", dataSources.get(0).getId());
+        Assert.assertEquals("2017", dataSources.get(0).getDescription());
+        Assert.assertEquals("2016", dataSources.get(1).getId());
+        Assert.assertEquals("2016", dataSources.get(1).getDescription());
+        Assert.assertEquals("2015", dataSources.get(2).getId());
+        Assert.assertEquals("2015", dataSources.get(2).getDescription());
     }
 }

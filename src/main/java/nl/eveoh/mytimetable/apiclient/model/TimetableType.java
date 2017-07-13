@@ -1,22 +1,24 @@
 package nl.eveoh.mytimetable.apiclient.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 import nl.eveoh.mytimetable.apiclient.configuration.Configuration;
 
 /**
- * A Timetable Type
+ * A timetable type
  *
  * @author Marco Krikke
  */
 public class TimetableType {
 
     /**
-     * Name of the timetable type
+     * Unique identifier of the timetable type
      */
-    private String name;
+    @JsonProperty("name")
+    private String id;
 
     /**
-     * Human readable description of the timetable type
+     * Description of the timetable type
      */
     private String description;
 
@@ -66,12 +68,12 @@ public class TimetableType {
     public TimetableType() {
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDescription() {
@@ -133,7 +135,7 @@ public class TimetableType {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("name", name)
+                .add("id", id)
                 .add("description", description)
                 .add("weight", weight)
                 .add("parent", parent)

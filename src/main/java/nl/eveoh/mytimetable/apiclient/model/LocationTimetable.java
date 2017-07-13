@@ -1,5 +1,6 @@
 package nl.eveoh.mytimetable.apiclient.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 import nl.eveoh.mytimetable.apiclient.configuration.Configuration;
 
@@ -15,49 +16,47 @@ public class LocationTimetable extends Timetable {
     /**
      * Capacity of the location
      */
-    private int locationCapacity;
+    @JsonProperty("locationCapacity")
+    private int capacity;
 
     /**
      * URL of the location
-     *
      * <p>
      * This value is only set for {@link Configuration.MyTimetable_Version} >= {@link
      * Configuration.MyTimetable_Version#V3_1}.
      */
-    private String locationUrl;
+    @JsonProperty("locationUrl")
+    private String url;
 
 
     public LocationTimetable() {
         super();
     }
 
-    public LocationTimetable(String key, String description, int locationCapacity, String locationUrl) {
+    public LocationTimetable(String key, String description, int capacity, String url) {
         super(key, description);
-        this.locationCapacity = locationCapacity;
-        this.locationUrl = locationUrl;
+        this.capacity = capacity;
+        this.url = url;
     }
 
-    public int getLocationCapacity() {
-        return locationCapacity;
+    public int getCapacity() {
+        return capacity;
     }
 
-    public void setLocationCapacity(int locationCapacity) {
-        this.locationCapacity = locationCapacity;
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
-    public String getLocationUrl() {
-        return locationUrl;
+    public String getUrl() {
+        return url;
     }
 
-    public void setLocationUrl(String locationUrl) {
-        this.locationUrl = locationUrl;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("locationCapacity", locationCapacity)
-                .add("locationUrl", locationUrl)
-                .toString();
+        return MoreObjects.toStringHelper(this).add("capacity", capacity).add("url", url).toString();
     }
 }

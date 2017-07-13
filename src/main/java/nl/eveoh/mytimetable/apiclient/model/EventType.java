@@ -20,26 +20,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 
 /**
- * Activity type for an event.
+ * Activity type for an event
  *
  * @author Marco Krikke
  */
 public class EventType {
 
     /**
-     * The identifier of the activity type
+     * Unique identifier of the activity type
      */
     @JsonProperty("activityTypeName")
     private String id;
 
     /**
-     * The human readable name of the activity type
+     * Description of the activity type
      */
     @JsonProperty("activityTypeDescription")
     private String description;
 
     /**
-     * The human readable name of the activity type
+     * Color of the activity type (in hex format: '#aabbcc')
      */
     @JsonProperty("activityTypeColor")
     private String color;

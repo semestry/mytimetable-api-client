@@ -6,19 +6,20 @@ import com.google.common.base.MoreObjects;
 import java.util.List;
 
 /**
- * Filter type
+ * Filter type. Represents a filter dropdown box, which appears when searching for timetables.
  *
  * @author Erik van Paassen
  */
 public class TimetableFilterType {
 
     /**
-     * The uniquely identified type of the filter
+     * Uniquely identified type of the filter
      */
-    private String type;
+    @JsonProperty("type")
+    private String id;
 
     /**
-     * The possible options for this filter
+     * Possible options for this filter
      *
      * @see TimetableFilterOption
      */
@@ -29,17 +30,17 @@ public class TimetableFilterType {
     public TimetableFilterType() {
     }
 
-    public TimetableFilterType(String type, List<TimetableFilterOption> options) {
-        this.type = type;
+    public TimetableFilterType(String id, List<TimetableFilterOption> options) {
+        this.id = id;
         this.options = options;
     }
 
-    public String getType() {
-        return type;
+    public String getId() {
+        return id;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public List<TimetableFilterOption> getOptions() {
@@ -52,6 +53,6 @@ public class TimetableFilterType {
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).add("type", type).add("options", options).toString();
+        return MoreObjects.toStringHelper(this).add("id", id).add("options", options).toString();
     }
 }

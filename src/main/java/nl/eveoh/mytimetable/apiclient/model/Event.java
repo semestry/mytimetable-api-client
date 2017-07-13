@@ -24,26 +24,28 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * A timetable event.
+ * A timetable event
  *
  * @author Marco Krikke
  */
 public class Event {
 
     /**
-     * Unique id of the activity.
+     * Unique identifier of the activity.
      */
     private String id;
 
     /**
      * Description of the activity.
      */
-    private String activityDescription;
+    @JsonProperty("activityDescription")
+    private String description;
 
     /**
-     * Module code of the activity. Can be {@code null}.
+     * External identifier of the module of the activity (usually the module code). Can be {@code null}.
      */
-    private String moduleCode;
+    @JsonProperty("moduleCode")
+    private String moduleKey;
 
     /**
      * Start date of the activity.
@@ -118,8 +120,8 @@ public class Event {
     public Event() {
     }
 
-    public Event(String activityDescription, Date startDate, Date endDate, List<Location> locations) {
-        this.activityDescription = activityDescription;
+    public Event(String description, Date startDate, Date endDate, List<Location> locations) {
+        this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.locations = locations;
@@ -133,20 +135,20 @@ public class Event {
         this.id = id;
     }
 
-    public String getActivityDescription() {
-        return activityDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setActivityDescription(String activityDescription) {
-        this.activityDescription = activityDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getModuleCode() {
-        return moduleCode;
+    public String getModuleKey() {
+        return moduleKey;
     }
 
-    public void setModuleCode(String moduleCode) {
-        this.moduleCode = moduleCode;
+    public void setModuleKey(String moduleKey) {
+        this.moduleKey = moduleKey;
     }
 
     public Date getStartDate() {
@@ -257,8 +259,8 @@ public class Event {
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("id", id)
-                .add("activityDescription", activityDescription)
-                .add("moduleCode", moduleCode)
+                .add("description", description)
+                .add("moduleKey", moduleKey)
                 .add("startDate", startDate)
                 .add("endDate", endDate)
                 .add("department", department)

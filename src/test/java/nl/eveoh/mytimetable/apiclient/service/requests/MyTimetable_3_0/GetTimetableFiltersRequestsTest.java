@@ -88,7 +88,7 @@ public class GetTimetableFiltersRequestsTest extends HttpResponseMockTestBase {
         when(httpClient.execute(any(HttpRequestBase.class))).thenReturn(TEST_HTTP_RESPONSE);
 
         TimetableFilterOption option = new TimetableFilterOption();
-        option.setValue("646ADCA666D4A88402CA46C26A73803C");
+        option.setId("646ADCA666D4A88402CA46C26A73803C");
 
         Map<String, TimetableFilterOption> filterOptionMap = new TreeMap<>();
         filterOptionMap.put("department", option);
@@ -114,10 +114,10 @@ public class GetTimetableFiltersRequestsTest extends HttpResponseMockTestBase {
         when(httpClient.execute(any(HttpRequestBase.class))).thenReturn(TEST_HTTP_RESPONSE);
 
         TimetableFilterOption option = new TimetableFilterOption();
-        option.setValue("646ADCA666D4A88402CA46C26A73803C");
+        option.setId("646ADCA666D4A88402CA46C26A73803C");
 
         TimetableFilterOption option2 = new TimetableFilterOption();
-        option2.setValue("646ADCA666D4A88402CA46C26A7380FF");
+        option2.setId("646ADCA666D4A88402CA46C26A7380FF");
 
         Map<String, TimetableFilterOption> filterOptionMap = new TreeMap<>();
         filterOptionMap.put("department", option);

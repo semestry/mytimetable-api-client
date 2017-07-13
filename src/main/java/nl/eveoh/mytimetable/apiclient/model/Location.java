@@ -16,12 +16,13 @@
 
 package nl.eveoh.mytimetable.apiclient.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 
 import java.util.ArrayList;
 
 /**
- * Location for an event.
+ * Location for an event
  *
  * @author Marco Krikke
  * @author Erik van Paassen
@@ -29,37 +30,38 @@ import java.util.ArrayList;
 public class Location {
 
     /**
-     * The unique identifier of the location
+     * Unique identifier of the location
      */
     private String id;
 
     /**
-     * The human readable name of the location
-     */
-    private String name;
-
-    /**
-     * The external identifier of the location
+     * External identifier of the location
      */
     private String key;
 
     /**
-     * The capacity of the location
+     * Description of the location
+     */
+    @JsonProperty("name")
+    private String description;
+
+    /**
+     * Capacity of the location
      */
     private int capacity;
 
     /**
-     * The capacity of the location when used for exams. Can be {@code null}.
+     * Capacity of the location when used for exams. Can be {@code null}.
      */
     private Integer examCapacity;
 
     /**
-     * The URL of the location
+     * URL of the location
      */
     private String url;
 
     /**
-     * A list of unique identifiers of locations that are 'avoid concurrent' with this location
+     * List of unique identifiers of locations that are 'avoid concurrent' with this location
      */
     private ArrayList<String> avoidConcurrencyLocationIds;
 
@@ -67,8 +69,8 @@ public class Location {
     public Location() {
     }
 
-    public Location(String name) {
-        this.name = name;
+    public Location(String description) {
+        this.description = description;
     }
 
     public String getId() {
@@ -79,20 +81,20 @@ public class Location {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getKey() {
         return key;
     }
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getCapacity() {
@@ -131,8 +133,8 @@ public class Location {
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("id", id)
-                .add("name", name)
                 .add("key", key)
+                .add("description", description)
                 .add("capacity", capacity)
                 .add("examCapacity", examCapacity)
                 .add("url", url)

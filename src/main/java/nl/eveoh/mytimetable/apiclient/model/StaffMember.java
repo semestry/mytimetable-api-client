@@ -16,39 +16,33 @@
 
 package nl.eveoh.mytimetable.apiclient.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 
 /**
- * Staff member for an event.
+ * Staff member for an event
  *
  * @author Marco Krikke
  */
 public class StaffMember {
 
     /**
-     * The human readable name of the staff member
-     */
-    private String name;
-
-    /**
-     * The identifier of the staff member
+     * External identifier of the staff member
      */
     private String key;
+
+    /**
+     * Description of the staff member
+     */
+    @JsonProperty("name")
+    private String description;
 
 
     public StaffMember() {
     }
 
-    public StaffMember(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public StaffMember(String description) {
+        this.description = description;
     }
 
     public String getKey() {
@@ -59,8 +53,16 @@ public class StaffMember {
         this.key = key;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).add("name", name).add("key", key).toString();
+        return MoreObjects.toStringHelper(this).add("key", key).add("description", description).toString();
     }
 }
