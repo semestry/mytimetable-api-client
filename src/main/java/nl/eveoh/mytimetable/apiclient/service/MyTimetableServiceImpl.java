@@ -262,6 +262,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
     }
 
     @Override
+    @Deprecated
     public List<Event> getUpcomingEvents(String username, int limit) {
         return getUpcomingEvents(username, limit, false);
     }
