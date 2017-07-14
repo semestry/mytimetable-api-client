@@ -16,7 +16,14 @@ bin/
 *.iml
 *.ipr
 *.iws
-.idea/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/modules.xml
+.idea/.name
+.idea/artifacts/
+.idea/libraries/
+.idea/uiDesigner.xml
+.idea/watcherTasks.xml
 out/
 
 # OS generated files
@@ -28,3 +35,7 @@ out/
 Icon?
 ehthumbs.db
 Thumbs.db
+
+# API Secrets
+*.p12
+client_secrets.json
