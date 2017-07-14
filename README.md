@@ -1,7 +1,7 @@
 MyTimetable API Client
 ======================
 
-This project provides a very basic MyTimetable API client, which fetches the upcoming events for a specific user.
+This project provides a very basic MyTimetable API client.
 It is used by the MyTimetable building block for Blackboard Learn and the MyTimetable tool for Sakai.
 
 Supported MyTimetable versions
@@ -12,13 +12,14 @@ MyTimetable v3.0 and later are supported.
 Supported MyTimetable APIs
 --------------------------
 
-MyTimetable API v0 and v0.5 are both supported. The API client calls the API version that returns the richest response.
+MyTimetable API v0 and the unofficial v0.5 are both supported. 
+The API client calls the API version that returns the richest response.
 
 Usage
 -----
 
-The API is a bit rough, and some of the Blackboard/Sakai components are leaking through, but it should be
-good enough for general use. You need a MyTimetable 'elevated' API token and the URL of the MyTimetable API.
+The API is a bit rough, and some of the Blackboard/Sakai components are leaking through, but it should be good enough for general use. 
+You need a MyTimetable 'elevated' API token and the URL of the MyTimetable API.
 
 ```java
 Configuration config = new Configuration();
@@ -48,26 +49,26 @@ repositories {
 }
 
 dependencies {
-    compile "nl.eveoh.mytimetable:mytimetable-api-client:1.1.1"
+    compile "nl.eveoh.mytimetable:mytimetable-api-client:2.0.0-M3"
 }
 ```
 
 Logging
 -------
 
-Some logging is done using [slf4j](www.slf4j.org), you can use any compatible logger to get the messages. Internally
-[Apache HttpClient](http://hc.apache.org/httpcomponents-client-ga/) is used, which uses commons-logging. Try the
-`jcl-over-slf4j` package to push these messages to your slf4j logger.
+Some logging is done using [slf4j](www.slf4j.org), you can use any compatible logger to get the messages. 
+Internally [Apache HttpClient](http://hc.apache.org/httpcomponents-client-ga/) is used, which uses commons-logging. 
+Try the `jcl-over-slf4j` package to push these messages to your slf4j logger.
 
 Support and more info
 ---------------------
 
-Visit our website, http://mytimetable.net, open a ticket (PR's welcome), or drop an email at info@eveoh.nl.
+Visit our website, https://mytimetable.net, open a ticket (PR's welcome), or drop an email at info@eveoh.nl.
 
 License
 -------
 
-    Copyright 2013 - 2014 Eveoh
+    Copyright 2013 - 2017 Eveoh
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
