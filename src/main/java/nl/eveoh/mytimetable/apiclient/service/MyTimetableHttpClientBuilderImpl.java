@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 - 2014 Eveoh
+ * Copyright 2013 - 2017 Eveoh
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,11 +40,12 @@ import javax.net.ssl.HostnameVerifier;
  */
 public class MyTimetableHttpClientBuilderImpl implements MyTimetableHttpClientBuilder {
 
+    @Override
     public CloseableHttpClient build(Configuration configuration) {
-        Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
-                .register("http", new PlainConnectionSocketFactory())
-                .register("https", createSslSocketFactory(configuration))
-                .build();
+        Registry<ConnectionSocketFactory> registry =
+                RegistryBuilder.<ConnectionSocketFactory>create().register("http", new PlainConnectionSocketFactory())
+                        .register("https", createSslSocketFactory(configuration))
+                        .build();
 
         // Create the Connection manager.
         PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(registry);

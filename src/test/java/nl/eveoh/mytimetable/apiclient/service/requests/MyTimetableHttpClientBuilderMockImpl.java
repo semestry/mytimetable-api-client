@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 - 2014 Eveoh
+ * Copyright 2013 - 2017 Eveoh
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ public class MyTimetableHttpClientBuilderMockImpl implements MyTimetableHttpClie
 
     private CloseableHttpClient mockHttpClient;
 
+    @Override
     public CloseableHttpClient build(Configuration configuration) {
         this.mockHttpClient = mock(CloseableHttpClient.class);
 

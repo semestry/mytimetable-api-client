@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 - 2014 Eveoh
+ * Copyright 2013 - 2017 Eveoh
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,6 @@ import nl.eveoh.mytimetable.apiclient.service.mapper.TimetableListMapper;
 import nl.eveoh.mytimetable.apiclient.service.mapper.TimetableTypeDetailsListStreamMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -72,7 +71,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
     private static final Logger log = LoggerFactory.getLogger(MyTimetableServiceImpl.class);
 
-    private CloseableHttpClient client = null;
+    private CloseableHttpClient client;
 
     private MyTimetableHttpClientBuilder clientBuilder = new MyTimetableHttpClientBuilderImpl();
 
@@ -286,6 +285,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
         return performRequest(new TimetableTypeDetailsListStreamMapper(mapper), "v0/timetabletypesdetails", null, null);
     }
 
+    @SuppressWarnings("AssignmentToNull")
     @Override
     public void close() {
         if (client != null) {
@@ -318,8 +318,6 @@ public class MyTimetableServiceImpl implements MyTimetableService {
                         stream.close();
                     }
                 }
-            } catch (ClientProtocolException e) {
-                log.error("Could not fetch results from MyTimetable API.", e);
             } catch (IOException e) {
                 log.error("Could not fetch results from MyTimetable API.", e);
             } finally {
@@ -403,7 +401,7 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
     private void assertParamNotNull(Object param, String paramDescription) {
         if (param == null) {
-            throw new IllegalArgumentException("'" + paramDescription + "' must not be null");
+            throw new IllegalArgumentException('\'' + paramDescription + "' must not be null");
         }
     }
 }

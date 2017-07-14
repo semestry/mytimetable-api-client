@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 - 2014 Eveoh
+ * Copyright 2013 - 2017 Eveoh
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,9 @@ public interface MyTimetableHttpClientBuilder {
     /**
      * Creates a thread-safe HttpClient instance.
      *
-     * @param configuration {@link Configuration} object containing the configuration data to configure the HttpClient with.
+     * @param configuration {@link Configuration} object containing the configuration data to configure the HttpClient
+     *                      with.
+     *
      * @return Thread-safe HttpClient.
      */
     CloseableHttpClient build(Configuration configuration);

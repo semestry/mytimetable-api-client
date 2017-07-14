@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 - 2014 Eveoh
+ * Copyright 2013 - 2017 Eveoh
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,13 @@
 
 package nl.eveoh.mytimetable.apiclient.service;
 
-import nl.eveoh.mytimetable.apiclient.model.*;
+import nl.eveoh.mytimetable.apiclient.model.DataSource;
+import nl.eveoh.mytimetable.apiclient.model.Event;
+import nl.eveoh.mytimetable.apiclient.model.LocationTimetable;
+import nl.eveoh.mytimetable.apiclient.model.Timetable;
+import nl.eveoh.mytimetable.apiclient.model.TimetableFilterOption;
+import nl.eveoh.mytimetable.apiclient.model.TimetableFilterType;
+import nl.eveoh.mytimetable.apiclient.model.TimetableType;
 
 import java.io.Closeable;
 import java.util.Date;
@@ -60,8 +66,10 @@ public interface MyTimetableService extends Closeable {
      * @param limit    The maximum number of {@link Event}s to return
      *
      * @return List of {@link Event}s for the user.
+     *
      * @deprecated Use {@link #getUpcomingEvents(String, int, boolean)}
      */
+    @Deprecated
     List<Event> getUpcomingEvents(String username, int limit);
 
     /**
@@ -223,8 +231,8 @@ public interface MyTimetableService extends Closeable {
      *                the most current data source).
      * @param filters Map containing multiple filters. The map key contains the filter name (e.g. 'department'), and the
      *                map value the selected filter value represented by a {@link TimetableFilterOption}. The filter
-     *                value scan be retrieved via the {@link #getTimetableFilters(String, String, Map)} call. Or {@code
-     *                null} when no filtering needs to be applied.
+     *                value scan be retrieved via the getTimetableFilters call. Or {@code null} when no filtering needs
+     *                to be applied.
      *
      * @return List of {@link TimetableFilterType} objects.
      */

@@ -1,3 +1,19 @@
+/*
+ * Copyright 2013 - 2017 Eveoh
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package nl.eveoh.mytimetable.apiclient.service.requests;
 
 import nl.eveoh.mytimetable.apiclient.configuration.Configuration;
@@ -20,11 +36,11 @@ import static org.mockito.Mockito.when;
 
 public abstract class AbstractHttpResponseMockTestBase {
 
-    public static final String API_BASE_URL = "https://demo.eveoh.nl";
-    public static final String API_PATH = "/api/";
-    public static final String API_ENDPOINT = API_BASE_URL + API_PATH;
+    private static final String API_BASE_URL = "https://demo.eveoh.nl";
+    protected static final String API_PATH = "/api/";
+    protected static final String API_ENDPOINT = API_BASE_URL + API_PATH;
 
-    public static final String API_KEY = "test-api-key";
+    protected static final String API_KEY = "test-api-key";
 
     private static final String BODY_EMPTY_ELEMENT = "{}";
     private static final String BODY_EMPTY_COLLECTION = "[]";
@@ -39,9 +55,9 @@ public abstract class AbstractHttpResponseMockTestBase {
     protected static final String QUERY_PARAM_START_DATE = "startDate";
     protected static final String QUERY_PARAM_TYPE = "type";
 
-    public CloseableHttpClient httpClient;
+    protected CloseableHttpClient httpClient;
 
-    public MyTimetableService service;
+    protected MyTimetableService service;
 
 
     @Before
@@ -58,9 +74,9 @@ public abstract class AbstractHttpResponseMockTestBase {
         this.service.close();
     }
 
-    public abstract Configuration getConfiguration();
+    protected abstract Configuration getConfiguration();
 
-    public CloseableHttpResponse createResponse(int httpStatus, String content) {
+    protected CloseableHttpResponse createResponse(int httpStatus, String content) {
         CloseableHttpResponse httpResponse = mock(CloseableHttpResponse.class);
         HttpEntity entity = mock(HttpEntity.class);
 
@@ -76,7 +92,7 @@ public abstract class AbstractHttpResponseMockTestBase {
         return httpResponse;
     }
 
-    public CloseableHttpResponse createEmptyCollectionResponse(int httpStatus) {
+    protected CloseableHttpResponse createEmptyCollectionResponse(int httpStatus) {
         return createResponse(httpStatus, BODY_EMPTY_COLLECTION);
     }
 
