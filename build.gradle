@@ -1,7 +1,7 @@
 apply plugin: 'java'
 
 description = 'MyTimetable API client'
-version = '2.0.0-M3'
+version = '2.0.0-M4'
 
 group = 'nl.eveoh.mytimetable'
 
@@ -48,10 +48,18 @@ dependencies {
 
 apply plugin: 'maven-publish'
 
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
+
+            artifact sourceJar {
+                classifier "sources"
+            }
         }
     }
     repositories {
