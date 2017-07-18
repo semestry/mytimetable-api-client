@@ -1,0 +1,5 @@
+{
+  "errorType": "timetable_not_found",
+  "errorMessage": "The requested timetable was not found.",
+  "status": "error"
+}

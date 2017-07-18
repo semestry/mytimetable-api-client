@@ -16,6 +16,7 @@
 
 package nl.eveoh.mytimetable.apiclient.service.requests.MyTimetable_3_0;
 
+import nl.eveoh.mytimetable.apiclient.exception.ErrorResponseException;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -131,5 +132,21 @@ public class GetTimetableByHostKeyRequestsTest extends HttpResponseMockTestBase 
         Assert.assertThat(actualHttpRequest, containsQueryParam(QUERY_PARAM_LIMIT, "10"));
         Assert.assertThat(actualHttpRequest, containsQueryParam(QUERY_PARAM_TYPE, TEST_TIMETABLE_TYPE));
         Assert.assertThat(actualHttpRequest, containsQueryParam(QUERY_PARAM_FETCH_BY, "hostKey"));
+    }
+
+    @Test
+    public void getNonExistingHostkey() throws IOException {
+        CloseableHttpResponse httpResponse = createResponse(HttpStatus.SC_NOT_FOUND, "{\"errorType" +
+                "\":\"timetable_not_found\",\"errorMessage\":\"The requested timetable was not found.\"," +
+                "\"status\":\"error\"}");
+        when(httpClient.execute(any(HttpRequestBase.class))).thenReturn(httpResponse);
+
+        catchException(service).getTimetableByHostKey(TEST_TIMETABLE_HOST_KEY, TEST_TIMETABLE_TYPE, null, null, 0);
+
+        ErrorResponseException exception = caughtException();
+        assertThat(exception, instanceOf(ErrorResponseException.class));
+        Assert.assertNotNull(exception.getErrorMessage());
+        Assert.assertEquals("timetable_not_found", exception.getErrorMessage().getType());
+        Assert.assertEquals("The requested timetable was not found.", exception.getErrorMessage().getMessage());
     }
 }

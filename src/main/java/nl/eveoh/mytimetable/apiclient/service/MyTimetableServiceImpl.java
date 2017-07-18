@@ -22,10 +22,12 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.net.UrlEscapers;
 import nl.eveoh.mytimetable.apiclient.configuration.Configuration;
+import nl.eveoh.mytimetable.apiclient.exception.ErrorResponseException;
 import nl.eveoh.mytimetable.apiclient.exception.HttpException;
 import nl.eveoh.mytimetable.apiclient.exception.InvalidConfigurationException;
 import nl.eveoh.mytimetable.apiclient.exception.NoUsableMyTimetableApiUrlException;
 import nl.eveoh.mytimetable.apiclient.model.DataSource;
+import nl.eveoh.mytimetable.apiclient.model.ErrorMessage;
 import nl.eveoh.mytimetable.apiclient.model.Event;
 import nl.eveoh.mytimetable.apiclient.model.LocationTimetable;
 import nl.eveoh.mytimetable.apiclient.model.Timetable;
@@ -34,6 +36,7 @@ import nl.eveoh.mytimetable.apiclient.model.TimetableFilterType;
 import nl.eveoh.mytimetable.apiclient.model.TimetableType;
 import nl.eveoh.mytimetable.apiclient.service.mapper.DataSourceDetailsListStreamMapper;
 import nl.eveoh.mytimetable.apiclient.service.mapper.DataSourceListStreamMapper;
+import nl.eveoh.mytimetable.apiclient.service.mapper.ErrorStreamMapper;
 import nl.eveoh.mytimetable.apiclient.service.mapper.EventListStreamMapper;
 import nl.eveoh.mytimetable.apiclient.service.mapper.LocationTimetableListMapper;
 import nl.eveoh.mytimetable.apiclient.service.mapper.StreamMapper;
@@ -77,6 +80,8 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
     private ObjectMapper mapper = new ObjectMapper();
 
+    private ErrorStreamMapper errorStreamMapper;
+
     private Configuration configuration;
 
 
@@ -91,6 +96,8 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
         // Make sure the Jackson ObjectMapper does not fail on other properties in the JSON response.
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        errorStreamMapper = new ErrorStreamMapper(mapper);
     }
 
     public MyTimetableServiceImpl(Configuration configuration) {
@@ -308,6 +315,30 @@ public class MyTimetableServiceImpl implements MyTimetableService {
 
             try {
                 response = client.execute(request);
+
+                // Handle error message from server
+                if (response.getStatusLine().getStatusCode() / 100 == 4) {
+                    HttpEntity entity = response.getEntity();
+                    if (entity != null) {
+                        InputStream stream = entity.getContent();
+
+                        try {
+                            ErrorMessage error = errorStreamMapper.map(stream);
+
+                            throw new ErrorResponseException(error);
+                        } finally {
+                            stream.close();
+
+                            if (response != null) {
+                                try {
+                                    response.close();
+                                } catch (IOException e) {
+                                    log.warn("Error while closing HttpResponse.", e);
+                                }
+                            }
+                        }
+                    }
+                }
 
                 HttpEntity entity = response.getEntity();
                 if (entity != null) {
