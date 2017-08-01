@@ -80,6 +80,10 @@ public class EventListStreamMapperTest extends BaseStreamMapperTest<EventListStr
 
         Assert.assertEquals(0, events.get(0).getTags().size());
 
+        Assert.assertEquals(2, events.get(0).getTimetableKeys().size());
+        Assert.assertEquals("2017!zone!8A75A241E9004CF0A4392576C4E09757", events.get(0).getTimetableKeys().get(0));
+        Assert.assertEquals("2017!module!8A75A241E9004CF0A4392576C4E09756", events.get(0).getTimetableKeys().get(1));
+
         Assert.assertEquals("This is note 1", events.get(0).getNote1());
         Assert.assertNull(events.get(0).getNote2());
         Assert.assertEquals("This is note 3", events.get(0).getNote3());
@@ -124,6 +128,9 @@ public class EventListStreamMapperTest extends BaseStreamMapperTest<EventListStr
         Assert.assertEquals("Tag A", events.get(1).getTags().get(0).getDescription());
         Assert.assertEquals("TagB", events.get(1).getTags().get(1).getKey());
         Assert.assertEquals("Tag B", events.get(1).getTags().get(1).getDescription());
+
+        Assert.assertEquals(1, events.get(1).getTimetableKeys().size());
+        Assert.assertEquals("2017!zone!8A75A241E9004CF0A4392576C4E09757", events.get(1).getTimetableKeys().get(0));
 
         Assert.assertNull(events.get(1).getNote1());
         Assert.assertEquals("This is note 2", events.get(1).getNote2());

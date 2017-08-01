@@ -51,7 +51,8 @@
     "notes3": "This is note 3",
     "highlighted": false,
     "timetableKeys": [
-      "2017!zone!8A75A241E9004CF0A4392576C4E09757"
+      "2017!zone!8A75A241E9004CF0A4392576C4E09757",
+      "2017!module!8A75A241E9004CF0A4392576C4E09756"
     ],
     "tags": [],
     "conferenceUrl": null,

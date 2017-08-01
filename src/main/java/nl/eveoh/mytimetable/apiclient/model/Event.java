@@ -89,6 +89,11 @@ public class Event {
     private List<Tag> tags;
 
     /**
+     * List of timetableKeys for this activity.
+     */
+    private List<String> timetableKeys;
+
+    /**
      * Note 1
      */
     @JsonProperty("notes")
@@ -215,6 +220,14 @@ public class Event {
         this.tags = tags;
     }
 
+    public List<String> getTimetableKeys() {
+        return timetableKeys;
+    }
+
+    public void setTimetableKeys(List<String> timetableKeys) {
+        this.timetableKeys = timetableKeys;
+    }
+
     public String getNote1() {
         return note1;
     }
@@ -269,6 +282,7 @@ public class Event {
                 .add("locations", locations)
                 .add("studentSets", studentSets)
                 .add("tags", tags)
+                .add("timetableKeys", timetableKeys)
                 .add("note1", note1)
                 .add("note2", note2)
                 .add("note3", note3)
