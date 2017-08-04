@@ -26,11 +26,14 @@ import java.util.Properties;
 public class WidgetConfiguration extends Configuration {
 
     private static final String CUSTOM_CSS = "customCss";
+    private static final String APPLICATION_URI_DESCRIPTION_OVERRIDE = "applicationUriDescriptionOverride";
 
     /**
      * Custom CSS to be included in the building block.
      */
     private String customCss;
+
+    private String applicationUriDescriptionOverride;
 
 
     public WidgetConfiguration() {
@@ -50,12 +53,25 @@ public class WidgetConfiguration extends Configuration {
         this.customCss = customCss;
     }
 
+    public String getApplicationUriDescriptionOverride() {
+        return applicationUriDescriptionOverride;
+    }
+
+    public void setApplicationUriDescriptionOverride(String applicationUriDescriptionOverride) {
+        this.applicationUriDescriptionOverride = applicationUriDescriptionOverride;
+    }
+
     @Override
     public Properties toProperties() {
         Properties ret = super.toProperties();
 
-        if (customCss != null)
+        if (customCss != null) {
             ret.setProperty(CUSTOM_CSS, customCss);
+        }
+
+        if (applicationUriDescriptionOverride != null) {
+            ret.setProperty(APPLICATION_URI_DESCRIPTION_OVERRIDE, applicationUriDescriptionOverride);
+        }
 
         return ret;
     }
