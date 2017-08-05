@@ -31,7 +31,7 @@ public class EventListStreamMapperTest extends BaseStreamMapperTest<EventListStr
     }
 
     @Test
-    public void testMapper() throws Exception {
+    public void testMapper_3_0() throws Exception {
         List<Event> events = mapper.map(getClassPathResourceAsStream(
                 "nl/eveoh/mytimetable/apiclient/service/mapper/MyTimetable_3_0/eventlist.json"));
 
@@ -43,6 +43,7 @@ public class EventListStreamMapperTest extends BaseStreamMapperTest<EventListStr
         Assert.assertNull(events.get(0).getModuleKey());
         Assert.assertEquals(new Date(1499867100000L), events.get(0).getStartDate());
         Assert.assertEquals(new Date(1499873400000L), events.get(0).getEndDate());
+        Assert.assertFalse(events.get(0).isAllDay());
 
         Assert.assertEquals("2017!646ADCA666D4A88402CA46C26A73803C", events.get(0).getDepartment().getId());
         Assert.assertEquals("Department of Science", events.get(0).getDepartment().getDescription());
@@ -98,6 +99,7 @@ public class EventListStreamMapperTest extends BaseStreamMapperTest<EventListStr
         Assert.assertEquals("TP", events.get(1).getModuleKey());
         Assert.assertEquals(new Date(1499867100000L), events.get(1).getStartDate());
         Assert.assertEquals(new Date(1499873400000L), events.get(1).getEndDate());
+        Assert.assertFalse(events.get(1).isAllDay());
 
         Assert.assertEquals("2017!0F5E7058EC134851B6EF5356A1864B04", events.get(1).getDepartment().getId());
         Assert.assertEquals("Department of Engineering", events.get(1).getDepartment().getDescription());
@@ -138,5 +140,24 @@ public class EventListStreamMapperTest extends BaseStreamMapperTest<EventListStr
 
         Assert.assertTrue(events.get(1).isHighlighted());
         Assert.assertTrue(events.get(1).isFiltered());
+    }
+
+    @Test
+    public void testMapper_3_2() throws Exception {
+        List<Event> events = mapper.map(getClassPathResourceAsStream(
+                "nl/eveoh/mytimetable/apiclient/service/mapper/MyTimetable_3_2/eventlist.json"));
+
+        Assert.assertEquals(2, events.size());
+
+        // First event
+        Assert.assertEquals(new Date(1499867100000L), events.get(0).getStartDate());
+        Assert.assertEquals(new Date(1499873400000L), events.get(0).getEndDate());
+        Assert.assertFalse(events.get(0).isAllDay());
+
+
+        // Second event
+        Assert.assertEquals(new Date(1499810400000L), events.get(1).getStartDate());
+        Assert.assertEquals(new Date(1499896800000L), events.get(1).getEndDate());
+        Assert.assertTrue(events.get(1).isAllDay());
     }
 }

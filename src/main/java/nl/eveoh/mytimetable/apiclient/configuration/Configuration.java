@@ -29,7 +29,7 @@ import java.util.List;
 public class Configuration {
 
     public enum MyTimetable_Version {
-        V3_0, V3_1
+        V3_0, V3_1, V3_2
     }
 
     /**

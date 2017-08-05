@@ -19,6 +19,7 @@ package nl.eveoh.mytimetable.apiclient.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.google.common.base.MoreObjects;
+import nl.eveoh.mytimetable.apiclient.configuration.Configuration;
 
 import java.util.Date;
 import java.util.List;
@@ -56,6 +57,17 @@ public class Event {
      * End date of the activity.
      */
     private Date endDate;
+
+    /**
+     * True if this is an all-day activity.
+     *
+     * <p>
+     * This value is only set for {@link Configuration.MyTimetable_Version} >= {@link
+     * Configuration.MyTimetable_Version#V3_2} (patch version). Defaults to false.
+     *
+     * @since MyTimetable 3.2
+     */
+    private boolean allDay;
 
     /**
      * Department for this activity
@@ -172,6 +184,14 @@ public class Event {
         this.endDate = endDate;
     }
 
+    public boolean isAllDay() {
+        return allDay;
+    }
+
+    public void setAllDay(boolean allDay) {
+        this.allDay = allDay;
+    }
+
     public Department getDepartment() {
         return department;
     }
@@ -276,6 +296,7 @@ public class Event {
                 .add("moduleKey", moduleKey)
                 .add("startDate", startDate)
                 .add("endDate", endDate)
+                .add("allDay", allDay)
                 .add("department", department)
                 .add("eventType", eventType)
                 .add("staffMembers", staffMembers)
