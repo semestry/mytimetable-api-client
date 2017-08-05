@@ -18,6 +18,7 @@ package nl.eveoh.mytimetable.apiclient.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
+import nl.eveoh.mytimetable.apiclient.configuration.Configuration;
 
 /**
  * Staff member for an event
@@ -25,6 +26,16 @@ import com.google.common.base.MoreObjects;
  * @author Marco Krikke
  */
 public class StaffMember {
+
+    /**
+     * Unique identifier of the staff member
+     * <p>
+     * This value is only set for {@link Configuration.MyTimetable_Version} >= {@link
+     * Configuration.MyTimetable_Version#V3_2} (patch version). Defaults to null.
+     *
+     * @since MyTimetable 3.2
+     */
+    private String id;
 
     /**
      * External identifier of the staff member
@@ -45,6 +56,14 @@ public class StaffMember {
         this.description = description;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getKey() {
         return key;
     }
@@ -63,6 +82,10 @@ public class StaffMember {
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).add("key", key).add("description", description).toString();
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("key", key)
+                .add("description", description)
+                .toString();
     }
 }

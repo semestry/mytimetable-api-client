@@ -54,8 +54,10 @@ public class EventListStreamMapperTest extends BaseStreamMapperTest<EventListStr
         Assert.assertEquals("#2c3e50", events.get(0).getEventType().getColor());
 
         Assert.assertEquals(2, events.get(0).getStaffMembers().size());
+        Assert.assertNull(events.get(0).getStaffMembers().get(0).getId());
         Assert.assertEquals("HAR", events.get(0).getStaffMembers().get(0).getKey());
         Assert.assertEquals("Mr. Harris (Har)", events.get(0).getStaffMembers().get(0).getDescription());
+        Assert.assertNull(events.get(0).getStaffMembers().get(1).getId());
         Assert.assertEquals("WAL", events.get(0).getStaffMembers().get(1).getKey());
         Assert.assertEquals("Ms. Walker (Wal)", events.get(0).getStaffMembers().get(1).getDescription());
 
@@ -107,6 +109,7 @@ public class EventListStreamMapperTest extends BaseStreamMapperTest<EventListStr
         Assert.assertNull(events.get(1).getEventType());
 
         Assert.assertEquals(1, events.get(1).getStaffMembers().size());
+        Assert.assertNull(events.get(1).getStaffMembers().get(0).getId());
         Assert.assertEquals("WAL", events.get(1).getStaffMembers().get(0).getKey());
         Assert.assertEquals("Ms. Walker (Wal)", events.get(1).getStaffMembers().get(0).getDescription());
 
@@ -154,10 +157,15 @@ public class EventListStreamMapperTest extends BaseStreamMapperTest<EventListStr
         Assert.assertEquals(new Date(1499873400000L), events.get(0).getEndDate());
         Assert.assertFalse(events.get(0).isAllDay());
 
+        Assert.assertEquals("2017!1CD879341ADFBC75E2F86464CC0A09BA", events.get(0).getStaffMembers().get(0).getId());
+        Assert.assertEquals("2017!1CD879341ADFBC75E2F86464CC0A0979", events.get(0).getStaffMembers().get(1).getId());
+
 
         // Second event
         Assert.assertEquals(new Date(1499810400000L), events.get(1).getStartDate());
         Assert.assertEquals(new Date(1499896800000L), events.get(1).getEndDate());
         Assert.assertTrue(events.get(1).isAllDay());
+
+        Assert.assertEquals("2017!1CD879341ADFBC75E2F86464CC0A0979", events.get(1).getStaffMembers().get(0).getId());
     }
 }
