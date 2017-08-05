@@ -61,6 +61,7 @@
     "conferenceUrl": null,
     "department": {
       "id": "2017!646ADCA666D4A88402CA46C26A73803C",
+      "key": "DoS",
       "name": "Department of Science"
     },
     "filtered": false
@@ -121,6 +122,7 @@
     "conferenceUrl": "https://demo.eveoh.nl/conference/12345",
     "department": {
       "id": "2017!0F5E7058EC134851B6EF5356A1864B04",
+      "key": "DoE",
       "name": "Department of Engineering"
     },
     "filtered": true

@@ -18,6 +18,7 @@ package nl.eveoh.mytimetable.apiclient.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
+import nl.eveoh.mytimetable.apiclient.configuration.Configuration;
 
 /**
  * Department for an event
@@ -30,6 +31,16 @@ public class Department {
      * Unique identifier of the department
      */
     private String id;
+
+    /**
+     * External identifier of the department
+     * <p>
+     * This value is only set for {@link Configuration.MyTimetable_Version} >= {@link
+     * Configuration.MyTimetable_Version#V3_2} (patch version). Defaults to null.
+     *
+     * @since MyTimetable 3.2
+     */
+    private String key;
 
     /**
      * Description of the department
@@ -53,6 +64,14 @@ public class Department {
         this.id = id;
     }
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -63,6 +82,10 @@ public class Department {
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).add("id", id).add("description", description).toString();
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("key", key)
+                .add("description", description)
+                .toString();
     }
 }

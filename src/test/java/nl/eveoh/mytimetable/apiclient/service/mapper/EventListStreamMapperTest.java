@@ -157,6 +157,8 @@ public class EventListStreamMapperTest extends BaseStreamMapperTest<EventListStr
         Assert.assertEquals(new Date(1499873400000L), events.get(0).getEndDate());
         Assert.assertFalse(events.get(0).isAllDay());
 
+        Assert.assertEquals("DoS", events.get(0).getDepartment().getKey());
+
         Assert.assertEquals("2017!1CD879341ADFBC75E2F86464CC0A09BA", events.get(0).getStaffMembers().get(0).getId());
         Assert.assertEquals("2017!1CD879341ADFBC75E2F86464CC0A0979", events.get(0).getStaffMembers().get(1).getId());
 
@@ -165,6 +167,8 @@ public class EventListStreamMapperTest extends BaseStreamMapperTest<EventListStr
         Assert.assertEquals(new Date(1499810400000L), events.get(1).getStartDate());
         Assert.assertEquals(new Date(1499896800000L), events.get(1).getEndDate());
         Assert.assertTrue(events.get(1).isAllDay());
+
+        Assert.assertEquals("DoE", events.get(1).getDepartment().getKey());
 
         Assert.assertEquals("2017!1CD879341ADFBC75E2F86464CC0A0979", events.get(1).getStaffMembers().get(0).getId());
     }
