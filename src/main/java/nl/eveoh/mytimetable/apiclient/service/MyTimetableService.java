@@ -16,9 +16,11 @@
 
 package nl.eveoh.mytimetable.apiclient.service;
 
+import nl.eveoh.mytimetable.apiclient.configuration.Configuration;
 import nl.eveoh.mytimetable.apiclient.model.DataSource;
 import nl.eveoh.mytimetable.apiclient.model.Event;
 import nl.eveoh.mytimetable.apiclient.model.LocationTimetable;
+import nl.eveoh.mytimetable.apiclient.model.Term;
 import nl.eveoh.mytimetable.apiclient.model.Timetable;
 import nl.eveoh.mytimetable.apiclient.model.TimetableFilterOption;
 import nl.eveoh.mytimetable.apiclient.model.TimetableFilterType;
@@ -257,4 +259,16 @@ public interface MyTimetableService extends Closeable {
      * @return List of {@link TimetableType} objects.
      */
     List<TimetableType> getTimetableTypes();
+
+    /**
+     * Returns a list of available terms.
+     * <p>
+     * This value is only set for {@link Configuration.MyTimetable_Version} >= {@link
+     * Configuration.MyTimetable_Version#V3_2} (patch version). Defaults to null.
+     *
+     * @return List of {@link Term} objects.
+     *
+     * @since MyTimetable 3.2
+     */
+    List<Term> getTerms();
 }

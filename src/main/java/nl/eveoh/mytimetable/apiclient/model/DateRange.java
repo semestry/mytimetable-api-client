@@ -16,49 +16,43 @@
 
 package nl.eveoh.mytimetable.apiclient.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 
+import java.util.Date;
+
 /**
- * MyTimetable error message
+ * DateRange used by {@link Term}s.
  *
  * @author Marco Krikke
  */
-public class ErrorMessage {
+public class DateRange {
 
-    @JsonProperty("errorType")
-    private String type;
+    private Date startDate;
 
-    @JsonProperty("errorMessage")
-    private String message;
+    private Date endDate;
 
 
-    private ErrorMessage() {
+    private DateRange() {
     }
 
-    public ErrorMessage(String type, String message) {
-        this.type = type;
-        this.message = message;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public String getType() {
-        return type;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).add("type", type).add("message", message).toString();
+        return MoreObjects.toStringHelper(this).add("startDate", startDate).add("endDate", endDate).toString();
     }
 }

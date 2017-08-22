@@ -26,10 +26,12 @@ import nl.eveoh.mytimetable.apiclient.exception.ErrorResponseException;
 import nl.eveoh.mytimetable.apiclient.exception.HttpException;
 import nl.eveoh.mytimetable.apiclient.exception.InvalidConfigurationException;
 import nl.eveoh.mytimetable.apiclient.exception.NoUsableMyTimetableApiUrlException;
+import nl.eveoh.mytimetable.apiclient.exception.StreamMappingException;
 import nl.eveoh.mytimetable.apiclient.model.DataSource;
 import nl.eveoh.mytimetable.apiclient.model.ErrorMessage;
 import nl.eveoh.mytimetable.apiclient.model.Event;
 import nl.eveoh.mytimetable.apiclient.model.LocationTimetable;
+import nl.eveoh.mytimetable.apiclient.model.Term;
 import nl.eveoh.mytimetable.apiclient.model.Timetable;
 import nl.eveoh.mytimetable.apiclient.model.TimetableFilterOption;
 import nl.eveoh.mytimetable.apiclient.model.TimetableFilterType;
@@ -40,6 +42,7 @@ import nl.eveoh.mytimetable.apiclient.service.mapper.ErrorStreamMapper;
 import nl.eveoh.mytimetable.apiclient.service.mapper.EventListStreamMapper;
 import nl.eveoh.mytimetable.apiclient.service.mapper.LocationTimetableListMapper;
 import nl.eveoh.mytimetable.apiclient.service.mapper.StreamMapper;
+import nl.eveoh.mytimetable.apiclient.service.mapper.TermListStreamMapper;
 import nl.eveoh.mytimetable.apiclient.service.mapper.TimetableFilterTypeListMapper;
 import nl.eveoh.mytimetable.apiclient.service.mapper.TimetableListMapper;
 import nl.eveoh.mytimetable.apiclient.service.mapper.TimetableTypeDetailsListStreamMapper;
@@ -293,6 +296,11 @@ public class MyTimetableServiceImpl implements MyTimetableService {
         return performRequest(new TimetableTypeDetailsListStreamMapper(mapper), "v0/timetabletypesdetails", null, null);
     }
 
+    @Override
+    public List<Term> getTerms() {
+        return performRequest(new TermListStreamMapper(mapper), "v0/terms", null, null);
+    }
+
     @SuppressWarnings("AssignmentToNull")
     @Override
     public void close() {
@@ -326,6 +334,11 @@ public class MyTimetableServiceImpl implements MyTimetableService {
                             ErrorMessage error = errorStreamMapper.map(stream);
 
                             throw new ErrorResponseException(error);
+                        }
+                        catch (StreamMappingException e) {
+                            throw new ErrorResponseException(
+                                    new ErrorMessage(Integer.toString(response.getStatusLine().getStatusCode()),
+                                            response.getStatusLine().getReasonPhrase()));
                         } finally {
                             stream.close();
 

@@ -1,0 +1,30 @@
+{
+  "terms": [
+    {
+      "dateRanges": [
+        {
+          "endDate": 1477868400000,
+          "startDate": 1473026400000
+        },
+        {
+          "endDate": 1482102000000,
+          "startDate": 1477868400000
+        }
+      ],
+      "id": "2016!E5399C05B9F7AB0060A61B46BAD833E0",
+      "key": null,
+      "name": "Two DateRanges"
+    },
+    {
+      "dateRanges": [
+        {
+          "endDate": 1535925600000,
+          "startDate": 1517785200000
+        }
+      ],
+      "id": "2017!E5399C05B9F7AB0060A61B46BAD833DF",
+      "key": "TestKey",
+      "name": "Semester2"
+    }
+  ]
+}
