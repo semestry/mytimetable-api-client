@@ -27,7 +27,14 @@ public class WidgetConfiguration extends Configuration {
 
     private static final String CUSTOM_CSS = "customCss";
     private static final String APPLICATION_URI_DESCRIPTION_OVERRIDE = "applicationUriDescriptionOverride";
+
+    private static final String SHOW_CODE = "showCode";
+    private static final String SHOW_DESCRIPTION = "showDescription";
     private static final String SHOW_STAFF = "showStaff";
+    private static final String SHOW_NOTE_1 = "showNote1";
+    private static final String SHOW_NOTE_2 = "showNote2";
+    private static final String SHOW_NOTE_3 = "showNote3";
+
     private static final String USE_STUDENT_ID = "useStudentId";
 
     /**
@@ -41,9 +48,34 @@ public class WidgetConfiguration extends Configuration {
     private String applicationUriDescriptionOverride;
 
     /**
+     * Show code column
+     */
+    private boolean showCode;
+
+    /**
+     * Show description column
+     */
+    private boolean showDescription;
+
+    /**
      * Show staff column
      */
     private boolean showStaff;
+
+    /**
+     * Show note 1 column
+     */
+    private boolean showNote1;
+
+    /**
+     * Show note 2 column
+     */
+    private boolean showNote2;
+
+    /**
+     * Show note 3 column
+     */
+    private boolean showNote3;
 
     /**
      * Use student id instead of username
@@ -76,12 +108,52 @@ public class WidgetConfiguration extends Configuration {
         this.applicationUriDescriptionOverride = applicationUriDescriptionOverride;
     }
 
+    public boolean isShowCode() {
+        return showCode;
+    }
+
+    public void setShowCode(boolean showCode) {
+        this.showCode = showCode;
+    }
+
+    public boolean isShowDescription() {
+        return showDescription;
+    }
+
+    public void setShowDescription(boolean showDescription) {
+        this.showDescription = showDescription;
+    }
+
     public boolean isShowStaff() {
         return showStaff;
     }
 
     public void setShowStaff(boolean showStaff) {
         this.showStaff = showStaff;
+    }
+
+    public boolean isShowNote1() {
+        return showNote1;
+    }
+
+    public void setShowNote1(boolean showNote1) {
+        this.showNote1 = showNote1;
+    }
+
+    public boolean isShowNote2() {
+        return showNote2;
+    }
+
+    public void setShowNote2(boolean showNote2) {
+        this.showNote2 = showNote2;
+    }
+
+    public boolean isShowNote3() {
+        return showNote3;
+    }
+
+    public void setShowNote3(boolean showNote3) {
+        this.showNote3 = showNote3;
     }
 
     public boolean isUseStudentId() {
@@ -95,7 +167,12 @@ public class WidgetConfiguration extends Configuration {
     @Override
     public Properties toProperties() {
         Properties ret = super.toProperties();
+        ret.setProperty(SHOW_CODE, Boolean.toString(showCode));
+        ret.setProperty(SHOW_DESCRIPTION, Boolean.toString(showDescription));
         ret.setProperty(SHOW_STAFF, Boolean.toString(showStaff));
+        ret.setProperty(SHOW_NOTE_1, Boolean.toString(showNote1));
+        ret.setProperty(SHOW_NOTE_2, Boolean.toString(showNote2));
+        ret.setProperty(SHOW_NOTE_3, Boolean.toString(showNote3));
         ret.setProperty(USE_STUDENT_ID, Boolean.toString(useStudentId));
 
         if (customCss != null) {
