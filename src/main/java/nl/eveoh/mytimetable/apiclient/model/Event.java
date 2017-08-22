@@ -31,6 +31,12 @@ public class Event {
     /**
      * Description of the activity.
      */
+    @JsonProperty(required = true, value = "moduleCode")
+    private String activityCode;
+
+    /**
+     * Description of the activity.
+     */
     @JsonProperty(required = true)
     private String activityDescription;
 
@@ -61,15 +67,43 @@ public class Event {
     @JsonProperty(required = true)
     private String activityTypeDescription;
 
+    /**
+     * Note 1 of the activity.
+     */
+    @JsonProperty(required = true, value = "notes")
+    private String note1;
+
+    /**
+     * Note 2 of the activity.
+     */
+    @JsonProperty(required = true, value = "notes2")
+    private String note2;
+
+    /**
+     * Note 3 of the activity.
+     */
+    @JsonProperty(required = true, value = "notes3")
+    private String note3;
+
+
     public Event() {}
 
-    public Event(String activityDescription, Date startDate, Date endDate, List<Location> locations, List<String> staffMembers, String activityTypeDescription) {
+    public Event(String activityDescription, Date startDate, Date endDate, List<Location> locations,
+                 List<String> staffMembers, String activityTypeDescription) {
         this.activityDescription = activityDescription;
         this.startDate = startDate;
         this.endDate = endDate;
         this.locations = locations;
         this.staffMembers = staffMembers;
         this.activityTypeDescription = activityTypeDescription;
+    }
+
+    public String getActivityCode() {
+        return activityCode;
+    }
+
+    public void setActivityCode(String activityCode) {
+        this.activityCode = activityCode;
     }
 
     public String getActivityDescription() {
@@ -118,5 +152,29 @@ public class Event {
 
     public void setActivityType(String activityTypeDescription) {
         this.activityTypeDescription = activityTypeDescription;
+    }
+
+    public String getNote1() {
+        return note1;
+    }
+
+    public void setNote1(String note1) {
+        this.note1 = note1;
+    }
+
+    public String getNote2() {
+        return note2;
+    }
+
+    public void setNote2(String note2) {
+        this.note2 = note2;
+    }
+
+    public String getNote3() {
+        return note3;
+    }
+
+    public void setNote3(String note3) {
+        this.note3 = note3;
     }
 }
