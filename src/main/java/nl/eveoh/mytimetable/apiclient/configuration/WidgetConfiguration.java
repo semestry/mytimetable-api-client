@@ -27,13 +27,28 @@ public class WidgetConfiguration extends Configuration {
 
     private static final String CUSTOM_CSS = "customCss";
     private static final String APPLICATION_URI_DESCRIPTION_OVERRIDE = "applicationUriDescriptionOverride";
+    private static final String SHOW_STAFF = "showStaff";
+    private static final String USE_STUDENT_ID = "useStudentId";
 
     /**
      * Custom CSS to be included in the building block.
      */
     private String customCss;
 
+    /**
+     * Description to be shown for the application link
+     */
     private String applicationUriDescriptionOverride;
+
+    /**
+     * Show staff column
+     */
+    private boolean showStaff;
+
+    /**
+     * Use student id instead of username
+     */
+    private boolean useStudentId;
 
 
     public WidgetConfiguration() {
@@ -61,9 +76,27 @@ public class WidgetConfiguration extends Configuration {
         this.applicationUriDescriptionOverride = applicationUriDescriptionOverride;
     }
 
+    public boolean isShowStaff() {
+        return showStaff;
+    }
+
+    public void setShowStaff(boolean showStaff) {
+        this.showStaff = showStaff;
+    }
+
+    public boolean isUseStudentId() {
+        return useStudentId;
+    }
+
+    public void setUseStudentId(boolean useStudentId) {
+        this.useStudentId = useStudentId;
+    }
+
     @Override
     public Properties toProperties() {
         Properties ret = super.toProperties();
+        ret.setProperty(SHOW_STAFF, Boolean.toString(showStaff));
+        ret.setProperty(USE_STUDENT_ID, Boolean.toString(useStudentId));
 
         if (customCss != null) {
             ret.setProperty(CUSTOM_CSS, customCss);
