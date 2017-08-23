@@ -89,7 +89,16 @@ public class WidgetConfiguration extends Configuration {
     public WidgetConfiguration(Properties properties) {
         super(properties);
 
+        showCode = Boolean.parseBoolean(properties.getProperty(SHOW_CODE));
+        showDescription = Boolean.parseBoolean(properties.getProperty(SHOW_DESCRIPTION));
+        showStaff = Boolean.parseBoolean(properties.getProperty(SHOW_STAFF));
+        showNote1 = Boolean.parseBoolean(properties.getProperty(SHOW_NOTE_1));
+        showNote2 = Boolean.parseBoolean(properties.getProperty(SHOW_NOTE_2));
+        showNote3 = Boolean.parseBoolean(properties.getProperty(SHOW_NOTE_3));
+        useStudentId = Boolean.parseBoolean(properties.getProperty(USE_STUDENT_ID));
+
         customCss = properties.getProperty(CUSTOM_CSS);
+        applicationUriDescriptionOverride = properties.getProperty(APPLICATION_URI_DESCRIPTION_OVERRIDE);
     }
 
     public String getCustomCss() {
