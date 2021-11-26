@@ -12,7 +12,7 @@ good enough for general use. You need a MyTimetable 'elevated' API token and the
 
 ```java
 Configuration config = new Configuration();
-config.getApiEndpointUris().add("https://demo.eveoh.nl/api/v0/");
+config.getApiEndpointUris().add("https://demo.mytimetable.net/api/v0/");
 config.setApiKey("MY-API-KEY");
 
 // Create the MyTimetable service class
